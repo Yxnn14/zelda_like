@@ -2,6 +2,7 @@ package fr.yann.zelda_like;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.core.ImplZeldaLike;
+import fr.yann.zelda_like.core.level.DemoLevel;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -27,6 +28,6 @@ public class ZeldaLikeApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        ZeldaLikeApplication.launch();
     }
 }
