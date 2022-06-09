@@ -5,8 +5,10 @@ import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.Player;
 import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.level.Level;
+import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,12 +20,25 @@ public abstract class AbstractLevel implements Level {
 
     protected final ZeldaLike zeldaLike;
 
+    protected final LevelGenerator generator;
+
     protected Player player;
 
-    protected AbstractLevel(ZeldaLike zeldaLike, int width, int height) {
+    protected AbstractLevel(ZeldaLike zeldaLike, int width, int height, LevelGenerator generator) {
         this.zeldaLike = zeldaLike;
         this.blocks = new Block[width][height];
         this.entities = new Entity[width][height];
+        this.generator = generator;
+    }
+
+    @Override
+    public int getWidth() {
+        return this.blocks.length;
+    }
+
+    @Override
+    public int getHeight() {
+        return this.blocks[0].length;
     }
 
     @Override
@@ -43,7 +58,7 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public void setBlock(Class<? extends Block> blockClass, Location location) {
-
+        this.setObject(this.blocks, blockClass, location);
     }
 
     @Override
@@ -58,7 +73,7 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public Entity spawn(Class<? extends Entity> entityClazz, Location location) {
-        return null;
+        return this.setObject(this.entities, entityClazz, location);
     }
 
     private <T> T getObjectAt(T[][] objects, int x, int y) {
@@ -72,5 +87,20 @@ public abstract class AbstractLevel implements Level {
             Collections.addAll(list, object);
         }
         return list;
+    }
+
+    private <T> T setObject(T[][] object, Class<? extends T> clazz, Location location) {
+        try {
+            return object[location.getX()][location.getY()] = clazz
+                .getConstructor(Location.class)
+                .newInstance(location);
+        } catch (Throwable throwable) {
+            throw new RuntimeException(throwable);
+        }
+    }
+
+    @Override
+    public LevelGenerator getGenerator() {
+        return this.generator;
     }
 }

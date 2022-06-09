@@ -2,10 +2,11 @@ package fr.yann.zelda_like;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.core.ImplZeldaLike;
-import fr.yann.zelda_like.core.level.DemoLevel;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,7 +21,16 @@ public class ZeldaLikeApplication extends Application {
                 System.LoggerFinder.getLoggerFinder().getLogger("Zelda Like", this.getClass().getModule()),
                 new Group()
         );
-        final Scene scene = new Scene(zeldaLike.getScene(), ZeldaLikeApplication.WIDTH, ZeldaLikeApplication.HEIGHT);
+
+        final Scene scene = new Scene(
+            zeldaLike.getScene(),
+            ZeldaLikeApplication.WIDTH,
+            ZeldaLikeApplication.HEIGHT,
+            false,
+            SceneAntialiasing.BALANCED
+        );
+        scene.setFill(Color.color(0, 0, 0));
+
         stage.setTitle("Zelda like");
         stage.setResizable(false);
         stage.setScene(scene);

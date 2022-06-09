@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface Level {
 
+    int getWidth();
+
+    int getHeight();
+
     Player getPlayer();
 
     List<Block> getBlocks();
@@ -29,4 +33,6 @@ public interface Level {
     }
 
     Entity spawn(Class<? extends Entity> entityClazz, Location location);
+
+    LevelGenerator getGenerator();
 }
