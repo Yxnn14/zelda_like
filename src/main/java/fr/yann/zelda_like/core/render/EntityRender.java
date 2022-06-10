@@ -50,6 +50,7 @@ public class EntityRender implements Render {
                 rectangle.setHeight(height);
                 rectangle.setX((entity.getLocation().getX() * xRatio) + xOffset);
                 rectangle.setY((entity.getLocation().getY() * yRatio) + yOffset);
+                rectangle.setFill(entity.getColor());
 
                 final Rectangle view = new Rectangle();
                 view.setWidth(width / 5.0);
