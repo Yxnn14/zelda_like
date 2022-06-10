@@ -9,6 +9,7 @@ import fr.yann.zelda_like.api.updater.Updater;
 
 public class ControllerUpdater implements Updater<Entity> {
 
+    private int sleepTick;
     private boolean mouvement;
 
     @Override
@@ -56,11 +57,17 @@ public class ControllerUpdater implements Updater<Entity> {
                     this.mouvement = true;
                 }
             }
+            if (this.mouvement) {
+                this.sleepTick = 1;
+            }
         } else {
-            this.mouvement = controllerManager.of(Controller.UP).isPressed()
-                || controllerManager.of(Controller.DOWN).isPressed()
-                || controllerManager.of(Controller.LEFT).isPressed()
-                || controllerManager.of(Controller.RIGHT).isPressed();
+            this.mouvement = (
+                controllerManager.of(Controller.UP).isPressed()
+                    || controllerManager.of(Controller.DOWN).isPressed()
+                    || controllerManager.of(Controller.LEFT).isPressed()
+                    || controllerManager.of(Controller.RIGHT).isPressed()
+            ) && this.sleepTick > 0;
+            this.sleepTick--;
         }
     }
 }
