@@ -74,8 +74,8 @@ public abstract class AbstractLevel implements Level {
     }
 
     @Override
-    public Entity spawn(Class<? extends Entity> entityClazz, Location location) {
-        final Entity entity = this.setObject(this.entities, entityClazz, location);
+    public <T extends Entity> T spawn(Class<T> entityClazz, Location location) {
+        final T entity = (T) this.setObject(this.entities, entityClazz, location);
         if (this.player == null && entity instanceof PlayerEntity player) {
             this.player = player;
         }

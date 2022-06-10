@@ -1,4 +1,4 @@
 package fr.yann.zelda_like.api.entity;
 
-public interface PlayerEntity extends Entity {
+public interface PlayerEntity extends MoneyEntity {
 }

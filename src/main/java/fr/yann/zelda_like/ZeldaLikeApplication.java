@@ -75,7 +75,7 @@ public class ZeldaLikeApplication extends Application {
 
         stage.setOnCloseRequest(windowEvent -> {
             frameTimer.stop();
-            // tickTimer.interrupt();
+            tickTimer.interrupt();
         });
     }
 

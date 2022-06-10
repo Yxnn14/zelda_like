@@ -33,7 +33,7 @@ public interface Level {
         return this.getEntityAt(location.getX(), location.getY());
     }
 
-    Entity spawn(Class<? extends Entity> entityClazz, Location location);
+    <T extends Entity> T spawn(Class<T> entityClazz, Location location);
 
     void moveEntity(Entity entity, Location location);
 

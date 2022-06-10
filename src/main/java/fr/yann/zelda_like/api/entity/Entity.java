@@ -5,6 +5,7 @@ import fr.yann.zelda_like.api.updater.UpdaterManager;
 import javafx.scene.paint.Color;
 
 public interface Entity {
+
     String getName();
 
     Location getLocation();
@@ -15,6 +16,9 @@ public interface Entity {
      * @deprecated
      */
     Color getColor();
+
+    int getHealth();
+
 
     UpdaterManager<Entity> getUpdaterManager();
 }

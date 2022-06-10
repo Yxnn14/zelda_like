@@ -14,11 +14,15 @@ public abstract class AbstractEntity implements Entity {
 
     private Location location;
 
-    protected AbstractEntity(ZeldaLike zeldaLike, String name, Location location, Color color) {
+    protected int health;
+
+
+    protected AbstractEntity(ZeldaLike zeldaLike, String name, Location location, Color color, int health) {
         this.name = name;
         this.location = location;
         this.color = color;
         this.updaterManager = new ImplUpdaterManager<>(zeldaLike, this);
+        this.health = health;
     }
 
     @Override
@@ -44,5 +48,10 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public UpdaterManager<Entity> getUpdaterManager() {
         return this.updaterManager;
+    }
+
+    @Override
+    public int getHealth() {
+        return this.health;
     }
 }
