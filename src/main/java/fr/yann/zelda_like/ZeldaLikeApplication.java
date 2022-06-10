@@ -87,7 +87,19 @@ public class ZeldaLikeApplication extends Application {
             .register(ImplController.create(Controller.LEFT, KeyCode.Q, KeyCode.LEFT))
             .register(ImplController.create(Controller.RIGHT, KeyCode.D, KeyCode.RIGHT))
             .register(ImplController.create(Controller.ACTION, KeyCode.SPACE))
-            .register(ImplController.create(Controller.OPEN_INVENTORY, KeyCode.E));
+            .register(ImplController.create(Controller.OPEN_INVENTORY, KeyCode.E))
+            .register(ImplController.create(Controller.SLOT_1, KeyCode.DIGIT1, KeyCode.NUMPAD0))
+            .register(ImplController.create(Controller.SLOT_2, KeyCode.DIGIT2, KeyCode.NUMPAD1))
+            .register(ImplController.create(Controller.SLOT_3, KeyCode.DIGIT3, KeyCode.NUMPAD2))
+            .register(ImplController.create(Controller.SLOT_4, KeyCode.DIGIT4, KeyCode.NUMPAD3))
+            .register(ImplController.create(Controller.SLOT_5, KeyCode.DIGIT5, KeyCode.NUMPAD4))
+            .register(ImplController.create(Controller.SLOT_6, KeyCode.DIGIT6, KeyCode.NUMPAD5))
+            .register(ImplController.create(Controller.SLOT_7, KeyCode.DIGIT7, KeyCode.NUMPAD6))
+            .register(ImplController.create(Controller.SLOT_8, KeyCode.DIGIT8, KeyCode.NUMPAD7))
+            .register(ImplController.create(Controller.SLOT_9, KeyCode.DIGIT9, KeyCode.NUMPAD8))
+            .register(ImplController.create(Controller.SLOT_10, KeyCode.DIGIT0, KeyCode.NUMPAD9))
+        ;
+
 
         final BiConsumer<KeyCode, Boolean> keyController = (keyCode, pressed) -> {
             final Controller controller = zeldaLike.getControllerManager().by(keyCode);

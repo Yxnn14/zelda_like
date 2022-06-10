@@ -83,6 +83,11 @@ public abstract class AbstractLevel implements Level {
     }
 
     @Override
+    public void removeEntity(Entity entity) {
+        this.entities[entity.getLocation().getX()][entity.getLocation().getY()] = null;
+    }
+
+    @Override
     public void moveEntity(Entity entity, Location location) {
         if (location.getX() > -1 && location.getX() < this.entities.length) {
             Entity[] entities = this.entities[location.getX()];

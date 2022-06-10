@@ -37,6 +37,8 @@ public interface Level {
 
     void moveEntity(Entity entity, Location location);
 
+    void removeEntity(Entity entity);
+
     LevelGenerator getGenerator();
 
     UpdaterManager<Level> getUpdaterManager();

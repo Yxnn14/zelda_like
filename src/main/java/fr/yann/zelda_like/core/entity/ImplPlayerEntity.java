@@ -7,6 +7,8 @@ import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.core.inventory.PlayerInventory;
 import fr.yann.zelda_like.core.updater.entity.ControllerUpdater;
 import fr.yann.zelda_like.core.updater.entity.InventoryOpeningUpdater;
+import fr.yann.zelda_like.core.updater.entity.PlayerActionUpdater;
+import fr.yann.zelda_like.core.updater.entity.PlayerItemUseUpdater;
 import javafx.scene.paint.Color;
 
 public class ImplPlayerEntity extends AbstractMoneyEntity implements PlayerEntity {
@@ -19,7 +21,9 @@ public class ImplPlayerEntity extends AbstractMoneyEntity implements PlayerEntit
         super(zeldaLike, "Player", location, Color.color(0.5, 0.5, 0), 20);
         this.getUpdaterManager()
             .add(new ControllerUpdater())
-            .add(new InventoryOpeningUpdater());
+            .add(new InventoryOpeningUpdater())
+            .add(new PlayerActionUpdater())
+            .add(new PlayerItemUseUpdater());
         this.inventory = new PlayerInventory();
     }
 
