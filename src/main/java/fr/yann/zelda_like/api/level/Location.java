@@ -4,9 +4,19 @@ public interface Location {
 
     int getX();
 
+    Location addX(int x);
+    Location removeX(int x);
+
     int getY();
 
+    Location addY(int y);
+    Location removeY(int y);
+
     Orientation getOrientation();
+
+    void setOrientation(Orientation orientation);
+
+    Location clone();
 
     enum Orientation {
         NORTH,

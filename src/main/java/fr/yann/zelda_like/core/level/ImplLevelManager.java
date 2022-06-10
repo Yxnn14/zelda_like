@@ -1,11 +1,9 @@
 package fr.yann.zelda_like.core.level;
 
 import fr.yann.zelda_like.api.ZeldaLike;
-import fr.yann.zelda_like.api.entity.Player;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelManager;
 import fr.yann.zelda_like.api.render.LevelRender;
-import fr.yann.zelda_like.core.ImplZeldaLike;
 import fr.yann.zelda_like.core.render.ImplLevelRender;
 
 import java.lang.reflect.InvocationTargetException;

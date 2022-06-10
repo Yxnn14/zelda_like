@@ -23,9 +23,13 @@ public class BlockRender implements Render {
         if (this.group != null) {
             this.levelRender.getGroup().getChildren().remove(this.group);
         }
-        this.group = new Group();
 
         final Level level = this.zeldaLike.getLevelManager().get();
+        if (level == null) {
+            return;
+        }
+
+        this.group = new Group();
 
         final double xRatio = (double) ZeldaLikeApplication.WIDTH / (double) level.getWidth();
         final double yRatio = (double) ZeldaLikeApplication.HEIGHT / (double) level.getHeight();

@@ -12,9 +12,9 @@ public class ImplLocation implements Location {
         return new ImplLocation(x, y, orientation);
     }
 
-    private final Orientation orientation;
     private final int x;
     private final int y;
+    private Orientation orientation;
 
     private ImplLocation(int x, int y, Orientation orientation) {
         this.x = x;
@@ -28,12 +28,42 @@ public class ImplLocation implements Location {
     }
 
     @Override
+    public Location addX(int x) {
+        return ImplLocation.create(this.x + x, this.y, this.orientation);
+    }
+
+    @Override
+    public Location removeX(int x) {
+        return ImplLocation.create(this.x - x, this.y, this.orientation);
+    }
+
+    @Override
     public int getY() {
         return this.y;
     }
 
     @Override
+    public Location addY(int y) {
+        return ImplLocation.create(this.x, this.y + y, this.orientation);
+    }
+
+    @Override
+    public Location removeY(int y) {
+        return ImplLocation.create(this.x, this.y - y, this.orientation);
+    }
+
+    @Override
     public Orientation getOrientation() {
         return this.orientation;
+    }
+
+    @Override
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
+
+    @Override
+    public Location clone() {
+        return new ImplLocation(this.x, this.y, this.orientation);
     }
 }

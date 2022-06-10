@@ -2,7 +2,8 @@ package fr.yann.zelda_like.api.level;
 
 import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.entity.Entity;
-import fr.yann.zelda_like.api.entity.Player;
+import fr.yann.zelda_like.api.entity.PlayerEntity;
+import fr.yann.zelda_like.api.updater.UpdaterManager;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface Level {
 
     int getHeight();
 
-    Player getPlayer();
+    PlayerEntity getPlayer();
 
     List<Block> getBlocks();
 
@@ -34,5 +35,9 @@ public interface Level {
 
     Entity spawn(Class<? extends Entity> entityClazz, Location location);
 
+    void moveEntity(Entity entity, Location location);
+
     LevelGenerator getGenerator();
+
+    UpdaterManager<Level> getUpdaterManager();
 }

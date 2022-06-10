@@ -3,19 +3,29 @@ package fr.yann.zelda_like.core.level;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.core.block.DemoBlock;
+import fr.yann.zelda_like.core.block.DemoThreeBlock;
 import fr.yann.zelda_like.core.block.DemoTwoBlock;
+import fr.yann.zelda_like.core.entity.ImplPlayerEntity;
+
+import java.util.Random;
 
 public class DemoLevelGenerator implements LevelGenerator {
     @Override
     public void generate(Level level) {
-        boolean xSwitch = false;
+        final Random random = new Random();
         for (int x = 0; x < level.getWidth(); x++) {
-            xSwitch = !xSwitch;
-            boolean ySwitch = !xSwitch;
             for (int y = 0; y < level.getHeight(); y++) {
-                ySwitch = !ySwitch;
-                level.setBlock(ySwitch ? DemoBlock.class : DemoTwoBlock.class, ImplLocation.create(x, y));
+                level.setBlock(
+                    random.nextInt(100) > 25
+                        ? random.nextInt(100) > 1
+                            ? DemoBlock.class
+                            : DemoThreeBlock.class
+                        : DemoTwoBlock.class,
+                    ImplLocation.create(x, y)
+                );
             }
         }
+
+        level.spawn(ImplPlayerEntity.class, ImplLocation.create(level.getWidth() / 2, level.getHeight() / 2));
     }
 }
