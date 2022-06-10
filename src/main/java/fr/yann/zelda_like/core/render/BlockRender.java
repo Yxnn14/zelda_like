@@ -38,10 +38,10 @@ public class BlockRender implements Render {
             .forEach(block -> {
                 final Rectangle rectangle = new Rectangle();
                 rectangle.setFill(block.getColor());
-                rectangle.setWidth(xRatio);
-                rectangle.setHeight(yRatio);
-                rectangle.setX(xRatio * block.getLocation().getX());
-                rectangle.setY(yRatio * block.getLocation().getY());
+                rectangle.setWidth(xRatio + 1);
+                rectangle.setHeight(yRatio + 1);
+                rectangle.setX(xRatio * (double) block.getLocation().getX());
+                rectangle.setY(yRatio * (double) block.getLocation().getY());
                 this.group.getChildren().add(rectangle);
             });
 
