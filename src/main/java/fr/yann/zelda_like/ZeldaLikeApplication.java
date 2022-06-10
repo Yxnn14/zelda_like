@@ -86,7 +86,8 @@ public class ZeldaLikeApplication extends Application {
             .register(ImplController.create(Controller.DOWN, KeyCode.S, KeyCode.DOWN))
             .register(ImplController.create(Controller.LEFT, KeyCode.Q, KeyCode.LEFT))
             .register(ImplController.create(Controller.RIGHT, KeyCode.D, KeyCode.RIGHT))
-            .register(ImplController.create(Controller.ACTION, KeyCode.SPACE));
+            .register(ImplController.create(Controller.ACTION, KeyCode.SPACE))
+            .register(ImplController.create(Controller.OPEN_INVENTORY, KeyCode.E));
 
         final BiConsumer<KeyCode, Boolean> keyController = (keyCode, pressed) -> {
             final Controller controller = zeldaLike.getControllerManager().by(keyCode);

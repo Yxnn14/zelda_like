@@ -1,4 +1,11 @@
 package fr.yann.zelda_like.api.entity;
 
-public interface PlayerEntity extends MoneyEntity {
+import fr.yann.zelda_like.api.inventory.Inventory;
+
+public interface PlayerEntity extends MoneyEntity, InventoryEntity {
+    Inventory getInventoryView();
+
+    void openInventory(Inventory inventory);
+
+    void closeInventory();
 }

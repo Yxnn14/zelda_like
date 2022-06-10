@@ -9,6 +9,7 @@ public interface Controller
     public static final String LEFT = "LEFT";
     public static final String RIGHT = "RIGHT";
     public static final String ACTION = "ACTION";
+    public static final String OPEN_INVENTORY = "OPEN_INVENTORY";
 
     String getKey();
 

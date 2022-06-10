@@ -2,23 +2,37 @@ package fr.yann.zelda_like.core.render;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.render.LevelRender;
+import fr.yann.zelda_like.api.render.Render;
 import javafx.scene.Group;
 
 public class ImplLevelRender implements LevelRender {
     private final ZeldaLike zeldaLike;
-    private final BlockRender blockRender;
-    private final EntityRender entityRender;
+    private final Render blockRender;
+    private final Render entityRender;
+
+    private final Render hudRender;
     private Group group;
 
     public ImplLevelRender(ZeldaLike zeldaLike) {
         this.zeldaLike = zeldaLike;
         this.blockRender = new BlockRender(zeldaLike, this);
         this.entityRender = new EntityRender(zeldaLike, this);
+        this.hudRender = new HUDRender(zeldaLike, this);
     }
 
     @Override
-    public BlockRender getBlockRender() {
+    public Render getBlockRender() {
         return this.blockRender;
+    }
+
+    @Override
+    public Render getEntityRender() {
+        return this.entityRender;
+    }
+
+    @Override
+    public Render getHudRender() {
+        return hudRender;
     }
 
     public Group getGroup() {
@@ -34,6 +48,7 @@ public class ImplLevelRender implements LevelRender {
 
         this.blockRender.render();
         this.entityRender.render();
+        this.hudRender.render();
 
         this.zeldaLike.getScene().getChildren().add(0, this.group);
     }
