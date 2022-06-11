@@ -4,28 +4,23 @@ import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.updater.Updater;
+import fr.yann.zelda_like.core.updater.AbstractUpdater;
 
-public class EntityPathUpdater implements Updater<Entity> {
+public class EntityPathUpdater extends AbstractUpdater<Entity> {
 
     private final Direction direction;
     private final int range;
     private boolean switchDirection;
     private int pathCounter;
-    private final int speed;
-    private int nextMove;
 
     public EntityPathUpdater(Direction direction, int range, int speed) {
+        super(speed);
         this.direction = direction;
         this.range = range;
-        this.speed = speed;
     }
 
     @Override
-    public void update(ZeldaLike zeldaLike, Entity entity) {
-        if (this.nextMove > 0) {
-            this.nextMove --;
-            return;
-        }
+    public void onUpdate(ZeldaLike zeldaLike, Entity entity) {
         final Level level = zeldaLike.getLevelManager().get();
         int x = 0;
         int y = 0;
@@ -50,8 +45,6 @@ public class EntityPathUpdater implements Updater<Entity> {
         }
         level.moveEntity(entity, entity.getLocation().add(x, y));
         this.pathCounter = newPathCounter;
-
-        this.nextMove = this.speed;
     }
 
     public enum Direction {
