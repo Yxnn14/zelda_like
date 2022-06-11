@@ -6,6 +6,8 @@ import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.render.LevelRender;
 import fr.yann.zelda_like.api.render.Render;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class BlockRender implements Render {
@@ -36,6 +38,16 @@ public class BlockRender implements Render {
 
         level.getBlocks()
             .forEach(block -> {
+                final Image image = block.getTexture();
+                if (image != null) {
+                    final ImageView imageView = new ImageView(image);
+                    imageView.setX(xRatio * (double) block.getLocation().getX());
+                    imageView.setY(yRatio * (double) block.getLocation().getY());
+                    imageView.setFitWidth(xRatio + 1);
+                    imageView.setFitHeight(yRatio + 1);
+                    this.group.getChildren().add(imageView);
+                    return;
+                }
                 final Rectangle rectangle = new Rectangle();
                 rectangle.setFill(block.getColor());
                 rectangle.setWidth(xRatio + 1);

@@ -10,6 +10,9 @@ import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.render.LevelRender;
 import fr.yann.zelda_like.api.render.Render;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -44,20 +47,33 @@ public class HUDRender implements Render {
 
         if (player.getInventoryView() != null) {
             final Group inventoryViewGroup = new Group();
-            final Rectangle rectangle = new Rectangle();
+            final Image inventoryTexture = player.getInventoryView().getBackgroundTexture();
             final double inventoryWidth = ZeldaLikeApplication.WIDTH / 2.0;
             final double slotSize = inventoryWidth / 10.0;
-            rectangle.setWidth(inventoryWidth);
             final double inventoryHeight = slotSize * Math.ceil(player.getInventoryView().getSize() / 10.0);
-            rectangle.setHeight(inventoryHeight);
-            rectangle.setX(ZeldaLikeApplication.WIDTH / 4.0);
-            rectangle.setY((ZeldaLikeApplication.HEIGHT - inventoryHeight) / 2.0);
-            rectangle.setFill(Color.color(0, 0, 0, .4));
+            final double x = ZeldaLikeApplication.WIDTH / 4.0;
+            final double y = (ZeldaLikeApplication.HEIGHT - inventoryHeight) / 2.0;
 
-            inventoryViewGroup.getChildren().add(0, rectangle);
+            if (inventoryTexture != null) {
+                final ImageView imageView = new ImageView(inventoryTexture);
+                imageView.setFitWidth(inventoryWidth);
+                imageView.setFitHeight(inventoryHeight);
+                imageView.setX(x);
+                imageView.setY(y);
+                inventoryViewGroup.getChildren().add(0, imageView);
+            } else {
+                final Rectangle rectangle = new Rectangle();
+                rectangle.setWidth(inventoryWidth);
+                rectangle.setHeight(inventoryHeight);
+                rectangle.setX(x);
+                rectangle.setY(y);
+                rectangle.setFill(Color.color(0, 0, 0, .4));
+
+                inventoryViewGroup.getChildren().add(0, rectangle);
+            }
 
             final Group slotsGroup = new Group();
-            Rectangle itemViewDragged = null;
+            Node itemViewDragged = null;
             Item itemCursor = player.getCursorItem();
 
             for (int i = 0; i < player.getInventoryView().getSize(); i++) {
@@ -65,17 +81,18 @@ public class HUDRender implements Render {
                 final Rectangle slot = new Rectangle();
                 slot.setWidth(slotSize * 0.75);
                 slot.setHeight(slotSize * 0.75);
-                slot.setX(rectangle.getX() + ((slotSize * (i % 10.0)) + (slotSize * 0.125)));
-                slot.setY(rectangle.getY() + ((slotSize * (Math.ceil((i + 1) / 10.0) - 1)) + (slotSize * 0.125)));
+                slot.setX(x + ((slotSize * (i % 10.0)) + (slotSize * 0.125)));
+                slot.setY(y + ((slotSize * (Math.ceil((i + 1) / 10.0) - 1)) + (slotSize * 0.125)));
 
                 final Cursor cursor = zeldaLike.getControllerManager().getCursor();
                 final boolean intersect = this.intersect(
                     cursor, slot.getX(), slot.getY(), slot.getWidth(), slot.getHeight(), false
                 );
+                final Color slotColor = player.getInventoryView().getSlotColor();
                 if (intersect) {
-                    slot.setFill(Color.color(0.6, 0.6, 0.6, 0.8));
+                    slot.setFill(Color.color(slotColor.getRed(), slotColor.getGreen(), slotColor.getBlue(), 0.8));
                 } else {
-                    slot.setFill(Color.color(0.6, 0.6, 0.6));
+                    slot.setFill(slotColor);
                 }
 
                 slotGroup.getChildren().add(0, slot);
@@ -100,23 +117,40 @@ public class HUDRender implements Render {
                 }
 
                 if (item != null) {
-                    final Rectangle itemView = new Rectangle();
-                    itemView.setWidth(slot.getWidth() * 0.75);
-                    itemView.setHeight(slot.getHeight() * 0.75);
-                    if (cursor.isDragged() && intersect) {
-                        itemView.setX(cursor.getDragX() - (slot.getWidth() / 2.0));
-                        itemView.setY(cursor.getDragY() - (slot.getHeight() / 2.0));
+                    final Image itemImage = item.getTexture();
+                    final Node itemCurrentView;
+                    if (itemImage != null) {
+                        final ImageView image = new ImageView(itemImage);
+                        image.setFitWidth(slot.getWidth() * 0.75);
+                        image.setFitHeight(slot.getHeight() * 0.75);
+                        if (cursor.isDragged() && intersect) {
+                            image.setX(cursor.getDragX() - (slot.getWidth() / 2.0));
+                            image.setY(cursor.getDragY() - (slot.getHeight() / 2.0));
+                        } else {
+                            image.setX(slot.getX() + (slot.getWidth() * 0.125));
+                            image.setY(slot.getY() + (slot.getHeight() * 0.125));
+                        }
+                        itemCurrentView = image;
                     } else {
-                        itemView.setX(slot.getX() + (slot.getWidth() * 0.125));
-                        itemView.setY(slot.getY() + (slot.getHeight() * 0.125));
+                        final Rectangle itemView = new Rectangle();
+                        itemView.setWidth(slot.getWidth() * 0.75);
+                        itemView.setHeight(slot.getHeight() * 0.75);
+                        if (cursor.isDragged() && intersect) {
+                            itemView.setX(cursor.getDragX() - (slot.getWidth() / 2.0));
+                            itemView.setY(cursor.getDragY() - (slot.getHeight() / 2.0));
+                        } else {
+                            itemView.setX(slot.getX() + (slot.getWidth() * 0.125));
+                            itemView.setY(slot.getY() + (slot.getHeight() * 0.125));
+                        }
+                        itemView.setFill(item.getColor());
+                        itemCurrentView = itemView;
                     }
-                    itemView.setFill(item.getColor());
 
                     if (cursor.isDragged() && intersect) {
-                        itemViewDragged = itemView;
+                        itemViewDragged = itemCurrentView;
                         itemCursor = item;
                     } else {
-                        slotGroup.getChildren().add(1, itemView);
+                        slotGroup.getChildren().add(1, itemCurrentView);
                     }
                 }
 

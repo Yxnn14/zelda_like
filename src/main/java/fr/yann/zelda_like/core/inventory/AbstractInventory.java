@@ -2,6 +2,8 @@ package fr.yann.zelda_like.core.inventory;
 
 import fr.yann.zelda_like.api.inventory.Inventory;
 import fr.yann.zelda_like.api.inventory.Item;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,9 +12,17 @@ import java.util.List;
 public abstract class AbstractInventory implements Inventory {
 
     protected final Item[] items;
+    private final Color backgroundColor;
+    private final Color slotColor;
 
-    public AbstractInventory(int size) {
+    protected AbstractInventory(int size) {
+        this(size, Color.color(0, 0, 0, .4), Color.color(0.6, 0.6, 0.6));
+    }
+
+    protected AbstractInventory(int size, Color backgroundColor, Color slotColor) {
         this.items = new Item[size];
+        this.backgroundColor = backgroundColor;
+        this.slotColor = slotColor;
     }
 
     @Override
@@ -82,5 +92,20 @@ public abstract class AbstractInventory implements Inventory {
     @Override
     public void clear() {
         Arrays.fill(this.items, null);
+    }
+
+    @Override
+    public Color getBackgroundColor() {
+        return this.backgroundColor;
+    }
+
+    @Override
+    public Color getSlotColor() {
+        return this.slotColor;
+    }
+
+    @Override
+    public Image getBackgroundTexture() {
+        return null;
     }
 }

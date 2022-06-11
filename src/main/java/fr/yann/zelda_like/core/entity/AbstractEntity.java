@@ -5,6 +5,7 @@ import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public abstract class AbstractEntity implements Entity {
@@ -60,5 +61,10 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public boolean interact(Entity entity) {
         return false;
+    }
+
+    @Override
+    public Image getTexture() {
+        return null;
     }
 }

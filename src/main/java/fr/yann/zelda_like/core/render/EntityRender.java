@@ -6,6 +6,8 @@ import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.render.LevelRender;
 import fr.yann.zelda_like.api.render.Render;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -45,6 +47,18 @@ public class EntityRender implements Render {
 
         level.getEntities()
             .forEach(entity -> {
+
+                final Image image = entity.getTexture();
+                if (image != null) {
+                    final ImageView imageView = new ImageView(image);
+                    imageView.setFitWidth(width);
+                    imageView.setFitHeight(height);
+                    imageView.setX((entity.getLocation().getX() * xRatio) + xOffset);
+                    imageView.setY((entity.getLocation().getY() * yRatio) + yOffset);
+                    this.group.getChildren().addAll(imageView);
+                    return;
+                }
+
                 final Rectangle rectangle = new Rectangle();
                 rectangle.setWidth(width);
                 rectangle.setHeight(height);

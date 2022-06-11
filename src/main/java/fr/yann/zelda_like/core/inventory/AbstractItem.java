@@ -2,9 +2,10 @@ package fr.yann.zelda_like.core.inventory;
 
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.inventory.Item;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class AbstractItem implements Item {
+public abstract class AbstractItem implements Item {
 
     protected final String name;
     protected final Color color;
@@ -28,5 +29,10 @@ public class AbstractItem implements Item {
     @Override
     public Color getColor() {
         return this.color;
+    }
+
+    @Override
+    public Image getTexture() {
+        return null;
     }
 }

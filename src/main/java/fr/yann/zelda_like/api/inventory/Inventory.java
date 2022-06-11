@@ -1,5 +1,8 @@
 package fr.yann.zelda_like.api.inventory;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+
 import java.util.List;
 
 public interface Inventory {
@@ -21,4 +24,10 @@ public interface Inventory {
     int getSize();
 
     void clear();
+
+    Color getBackgroundColor();
+
+    Image getBackgroundTexture();
+
+    Color getSlotColor();
 }
