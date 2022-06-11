@@ -101,24 +101,19 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public void moveEntity(Entity entity, Location location) {
-        if (location.getX() > -1 && location.getX() < this.entities.length) {
-            Entity[] entities = this.entities[location.getX()];
-            if (location.getY() > -1 && location.getY() < entities.length) {
-                final Entity target = entities[location.getY()];
-                if (target == null && this.blocks[location.getX()][location.getY()].isTransparent()) {
-                    Entity lastEntity = this.entities[entity.getLocation().getX()][entity.getLocation().getY()];
-                    if (lastEntity != null && lastEntity.equals(entity)) {
-                        this.entities[entity.getLocation().getX()][entity.getLocation().getY()] = null;
-                    }
-                    entities[location.getY()] = entity;
-                    entity.setLocation(location);
-                }
+        final Entity target = this.getEntityAt(location);
+        if (target == null && this.getBlockAt(location).isTransparent()) {
+            final Entity lastEntity = this.getEntityAt(entity.getLocation());;
+            if (lastEntity != null && lastEntity.equals(entity)) {
+                this.entities[entity.getLocation().getX()][entity.getLocation().getY()] = null;
             }
+            this.entities[location.getX()][location.getY()] = entity;
+            entity.setLocation(location);
         }
     }
 
     private <T> T getObjectAt(T[][] objects, int x, int y) {
-        if (x < 0 || x >= objects.length || y < 0 || objects[x].length >= y) {
+        if (x < 0 || x >= objects.length || y < 0 || y >= objects[x].length) {
             return null;
         }
         return objects[x][y];
@@ -136,12 +131,20 @@ public abstract class AbstractLevel implements Level {
         return list;
     }
 
-    private <T> T setObject(T[][] object, Class<? extends T> clazz, Location location) {
+    private <T> T setObject(T[][] objects, Class<? extends T> clazz, Location location) {
         try {
-            return object[location.getX()][location.getY()] = clazz
+            final T type = clazz
                 .getConstructor(ZeldaLike.class, Location.class)
                 .newInstance(this.zeldaLike, location);
+            if (
+                location.getX() > -1 && location.getX() < objects.length
+                    && location.getY() > -1 && location.getY() < objects[location.getX()].length
+            ) {
+                objects[location.getX()][location.getY()] = type;
+            }
+            return type;
         } catch (Throwable throwable) {
+            System.out.println("Error: " + location.getX() + ":" + location.getY() + " [" + objects.length + "|" + objects[location.getX()].length + "]");
             throw new RuntimeException(throwable);
         }
     }

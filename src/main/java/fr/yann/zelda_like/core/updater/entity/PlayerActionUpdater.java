@@ -42,7 +42,9 @@ public class PlayerActionUpdater implements Updater<Entity> {
         } else if (entity.getLocation().getOrientation().equals(Location.Orientation.EAST)) {
             x = 1;
         }
-        Entity targetEntity = level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y);
+        final Location location = entity.getLocation().add(x, y);
+        final Entity targetEntity = level.getEntityAt(location);
+
         if (targetEntity instanceof ItemEntity itemEntity) {
             if (itemEntity.canPickup()) {
                 ((PlayerEntity) entity).getInventory().addItem(itemEntity.getItem());
@@ -50,7 +52,7 @@ public class PlayerActionUpdater implements Updater<Entity> {
             }
             return;
         }
-        if (targetEntity == null) {
+        if (targetEntity == null && level.getBlockAt(location).isTransparent()) {
             BulletEntity bulletEntity = level.spawn(ImplBulletEntity.class, entity.getLocation().add(x, y));
             bulletEntity.setItem(new DemoBulletItem());
         }
