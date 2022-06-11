@@ -1,5 +1,6 @@
 package fr.yann.zelda_like.core.level;
 
+import fr.yann.zelda_like.ZeldaLikeApplication;
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.entity.Entity;
@@ -8,15 +9,21 @@ import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
+import fr.yann.zelda_like.api.particule.Particule;
+import fr.yann.zelda_like.api.updater.ParticuleUpdater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import fr.yann.zelda_like.core.block.BarrierBlock;
+import fr.yann.zelda_like.core.particule.ImplParticule;
+import fr.yann.zelda_like.core.particule.ImplVector;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractLevel implements Level {
-
+    protected List<Particule> particules = new ArrayList<>();
     protected final Block[][] blocks;
     protected final Entity[][] entities;
 
@@ -28,6 +35,8 @@ public abstract class AbstractLevel implements Level {
 
     protected PlayerEntity player;
     protected boolean pause;
+    protected boolean hudShow = true;
+    protected boolean debugShow;
 
     protected AbstractLevel(
         ZeldaLike zeldaLike,
@@ -100,7 +109,7 @@ public abstract class AbstractLevel implements Level {
     }
 
     @Override
-    public void moveEntity(Entity entity, Location location) {
+    public boolean moveEntity(Entity entity, Location location) {
         final Entity target = this.getEntityAt(location);
         if (target == null && this.getBlockAt(location).isTransparent()) {
             final Entity lastEntity = this.getEntityAt(entity.getLocation());;
@@ -109,7 +118,55 @@ public abstract class AbstractLevel implements Level {
             }
             this.entities[location.getX()][location.getY()] = entity;
             entity.setLocation(location);
+            return true;
         }
+        return false;
+    }
+
+    @Override
+    public List<Particule> getParticules() {
+        return new ArrayList<>(this.particules);
+    }
+
+    @Override
+    public void addParticules(Image particule, Location location, int count, ParticuleUpdater updater, int lifetime) {
+        this.addParticules(particule, Color.color(0, 0, 0), location, count, updater, lifetime);
+    }
+
+    @Override
+    public void addParticules(Color particule, Location location, int count, ParticuleUpdater updater, int lifetime) {
+        this.addParticules(null, particule, location, count, updater, lifetime);
+    }
+
+    private void addParticules(
+        Image texture,
+        Color color,
+        Location location,
+        int count,
+        ParticuleUpdater updater,
+        int lifetime
+    ) {
+        final double xRatio = (double) ZeldaLikeApplication.WIDTH / (double) this.getWidth();
+        final double yRatio = (double) ZeldaLikeApplication.HEIGHT / (double) this.getHeight();
+        for (int i = 0; i < count; i++) {
+            final Particule currentParticule = new ImplParticule(
+                this.zeldaLike,
+                texture,
+                color,
+                ImplVector.create(
+                    (float) ((location.getX() * xRatio) + (xRatio / 2.0)),
+                    (float) ((location.getY() * yRatio)  + (yRatio / 2.0))
+                ),
+                lifetime
+            );
+            currentParticule.getUpdaterManager().add(updater.clone());
+            this.particules.add(currentParticule);
+        }
+    }
+
+    @Override
+    public void removeParticule(Particule particule) {
+        this.particules.remove(particule);
     }
 
     private <T> T getObjectAt(T[][] objects, int x, int y) {
@@ -171,5 +228,25 @@ public abstract class AbstractLevel implements Level {
     @Override
     public void setPause(boolean pause) {
         this.pause = pause;
+    }
+
+    @Override
+    public boolean isHUDShow() {
+        return this.hudShow;
+    }
+
+    @Override
+    public void setHUDShow(boolean hudShow) {
+        this.hudShow = hudShow;
+    }
+
+    @Override
+    public boolean isDebugShow() {
+        return this.debugShow;
+    }
+
+    @Override
+    public void setDebugShow(boolean debugShow) {
+        this.debugShow = debugShow;
     }
 }

@@ -5,6 +5,7 @@ import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.controller.Cursor;
 import fr.yann.zelda_like.api.dialog.Dialog;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
+import fr.yann.zelda_like.api.inventory.Inventory;
 import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.render.LevelRender;
@@ -19,6 +20,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class HUDRender implements Render {
+
+    private static final Image HEALTH_TEXTURE = new Image("assets/textures/health.png");
 
     private final ZeldaLike zeldaLike;
     private final LevelRender levelRender;
@@ -45,6 +48,29 @@ public class HUDRender implements Render {
 
         final PlayerEntity player = level.getPlayer();
 
+        if (level.isHUDShow()) {
+            this.drawHealth(player);
+            this.drawInventory(player.getInventory());
+        }
+
+        if (level.isDebugShow()) {
+            this.drawInformations();
+        }
+
+        this.drawInventoryView(player);
+        this.drawDialog(level.getDialogManager().get());
+
+        this.levelRender.getGroup().getChildren().add(3, this.group);
+    }
+
+    private boolean intersect(Cursor cursor, double x, double y, double width, double height, boolean drag) {
+        return x <= (drag ? cursor.getDragX() : cursor.getX())
+            && (x + width) >= (drag ? cursor.getDragX() : cursor.getX())
+            && y <= (drag ? cursor.getDragY() : cursor.getY())
+            && (y + height) >= (drag ? cursor.getDragY() : cursor.getY());
+    }
+
+    private void drawInventoryView(PlayerEntity player) {
         if (player.getInventoryView() != null) {
             final Group inventoryViewGroup = new Group();
             final Image inventoryTexture = player.getInventoryView().getBackgroundTexture();
@@ -162,14 +188,74 @@ public class HUDRender implements Render {
             if (itemViewDragged != null) {
                 player.setCursorItem(itemCursor);
                 inventoryViewGroup.getChildren().add(2, itemViewDragged);
+            } else if (player.getCursorItem() != null) {
+                player.setCursorItem(null);
             }
 
             this.group.getChildren().add(inventoryViewGroup);
         } else if (player.getCursorItem() != null) {
             player.setCursorItem(null);
         }
+    }
 
-        final Dialog dialog = level.getDialogManager().get();
+    private void drawInventory(Inventory inventory) {
+        final Group inventoryGroup = new Group();
+
+        final double fullSize = ZeldaLikeApplication.WIDTH * 0.04;
+        final double slotSize = fullSize * 0.85;
+        final double slotX = ZeldaLikeApplication.WIDTH - fullSize;
+
+        final Rectangle inventoryBackground = new Rectangle();
+        inventoryBackground.setX(slotX);
+        inventoryBackground.setY(0);
+        inventoryBackground.setWidth(fullSize);
+        inventoryBackground.setHeight(fullSize * Math.min(inventory.getSize(), 10));
+        inventoryBackground.setFill(inventory.getBackgroundColor());
+
+        inventoryGroup.getChildren().add(0, inventoryBackground);
+
+        final Group inventorySlot = new Group();
+
+        for (int i = 0; i < Math.min(inventory.getSize(), 10); i++) {
+            final Group slotGroup = new Group();
+            final Rectangle rectangle = new Rectangle();
+            rectangle.setFill(inventory.getSlotColor());
+            rectangle.setWidth(slotSize);
+            rectangle.setHeight(slotSize);
+            rectangle.setX(slotX + ((fullSize - slotSize) / 2.0));
+            rectangle.setY((i * fullSize) + ((fullSize - slotSize) / 2.0));
+            slotGroup.getChildren().add(0, rectangle);
+
+            final Item item = inventory.getItemAt(i);
+            if (item != null) {
+                final Image itemImage = item.getTexture();
+                if (itemImage != null) {
+                    final ImageView imageView = new ImageView(itemImage);
+                    imageView.setFitWidth(rectangle.getWidth() * 0.75);
+                    imageView.setFitHeight(rectangle.getHeight() * 0.75);
+                    imageView.setX(rectangle.getX() + (rectangle.getWidth() * 0.125));
+                    imageView.setY(rectangle.getY() + (rectangle.getHeight() * 0.125));
+                    slotGroup.getChildren().add(1, imageView);
+                } else {
+                    final Rectangle itemView = new Rectangle();
+                    itemView.setWidth(rectangle.getWidth() * 0.75);
+                    itemView.setHeight(rectangle.getHeight() * 0.75);
+                    itemView.setX(rectangle.getX() + (rectangle.getWidth() * 0.125));
+                    itemView.setY(rectangle.getY() + (rectangle.getHeight() * 0.125));
+                    itemView.setFill(item.getColor());
+                    slotGroup.getChildren().add(1, itemView);
+                }
+            }
+
+            inventorySlot.getChildren().add(slotGroup);
+        }
+
+        inventoryGroup.getChildren().add(1, inventorySlot);
+
+        this.group.getChildren().add(inventoryGroup);
+    }
+
+    private void drawDialog(Dialog dialog) {
         if (dialog != null) {
             final Group dialogGroup = new Group();
             final Rectangle dialogBackGround = new Rectangle();
@@ -191,14 +277,57 @@ public class HUDRender implements Render {
 
             this.group.getChildren().add(dialogGroup);
         }
-
-        this.levelRender.getGroup().getChildren().add(2, this.group);
     }
 
-    private boolean intersect(Cursor cursor, double x, double y, double width, double height, boolean drag) {
-        return x <= (drag ? cursor.getDragX() : cursor.getX())
-            && (x + width) >= (drag ? cursor.getDragX() : cursor.getX())
-            && y <= (drag ? cursor.getDragY() : cursor.getY())
-            && (y + height) >= (drag ? cursor.getDragY() : cursor.getY());
+    private void drawHealth(PlayerEntity player) {
+        final Group group = new Group();
+
+        final double size = ZeldaLikeApplication.WIDTH * 0.02;
+        final double offset = size / 2.0;
+
+        for (int i = 0; i < player.getHealth(); i++) {
+            final ImageView imageView = new ImageView(HUDRender.HEALTH_TEXTURE);
+            imageView.setFitWidth(size);
+            imageView.setFitHeight(size);
+            imageView.setX(offset + ((offset * 0.2) * i) + (size * i));
+            imageView.setY(offset);
+            group.getChildren().add(imageView);
+        }
+
+        this.group.getChildren().add(group);
+    }
+
+    private void drawInformations() {
+        final Group group = new Group();
+
+        final double x = ZeldaLikeApplication.WIDTH * 0.01;
+        final Font font = Font.font(ZeldaLikeApplication.HEIGHT * 0.02);
+        final Color color = Color.color(1, 1, 1);
+
+        final Rectangle rectangle = new Rectangle();
+        rectangle.setX(x - 5.0);
+        rectangle.setY((ZeldaLikeApplication.HEIGHT * 0.9) - font.getSize() - 3);
+        rectangle.setWidth(ZeldaLikeApplication.WIDTH * 0.1);
+        rectangle.setHeight((ZeldaLikeApplication.HEIGHT * 0.05) + 10.0);
+        rectangle.setFill(Color.color(0, 0, 0, 0.6));
+        group.getChildren().add(rectangle);
+
+        Text text = new Text();
+        text.setText("TPS: " + ZeldaLikeApplication.getTps());
+        text.setX(x);
+        text.setY(ZeldaLikeApplication.HEIGHT * 0.9);
+        text.setFill(color);
+        text.setFont(font);
+        group.getChildren().add(text);
+
+        text = new Text();
+        text.setText("FPS: " + ZeldaLikeApplication.getFps());
+        text.setX(x);
+        text.setY(ZeldaLikeApplication.HEIGHT * 0.93);
+        text.setFill(color);
+        text.setFont(font);
+        group.getChildren().add(text);
+
+        this.group.getChildren().add(group);
     }
 }

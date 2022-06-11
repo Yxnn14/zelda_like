@@ -7,6 +7,8 @@ import fr.yann.zelda_like.api.inventory.BulletItem;
 import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.core.updater.AbstractUpdater;
+import fr.yann.zelda_like.core.updater.particule.DefaultParticuleUpdater;
+import javafx.scene.paint.Color;
 
 public class BulletUpdater extends AbstractUpdater<Entity> {
 
@@ -40,18 +42,22 @@ public class BulletUpdater extends AbstractUpdater<Entity> {
             case SOUTH -> y = 1;
         }
 
-        if (this.range >= ((BulletItem) item).getRange()) {
+        final boolean remove = this.range >= ((BulletItem) item).getRange()
+            || !level.getBlockAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y).isTransparent()
+            || level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y) != null;
+
+        if (remove) {
             level.removeEntity(entity);
+            level.addParticules(
+                Color.color(1d, 0d, 1d),
+                entity.getLocation().add(x, y),
+                10,
+                new DefaultParticuleUpdater(),
+                10
+            );
             return;
         }
-        if (!level.getBlockAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y).isTransparent()) {
-            level.removeEntity(entity);
-            return;
-        }
-        if (level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y) != null) {
-            level.removeEntity(entity);
-            return;
-        }
+
         level.moveEntity(entity, entity.getLocation().add(x, y));
     }
 }

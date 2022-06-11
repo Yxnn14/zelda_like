@@ -7,6 +7,8 @@ import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.updater.Updater;
+import fr.yann.zelda_like.core.updater.particule.DefaultParticuleUpdater;
+import javafx.scene.paint.Color;
 
 public class TeleportUpdater implements Updater<Block> {
 
@@ -20,8 +22,17 @@ public class TeleportUpdater implements Updater<Block> {
         if (!(entity instanceof PlayerEntity)) {
             return;
         }
-        if (((TeleportBlock) block).getTeleportLocation() != null) {
-            level.moveEntity(entity, ((TeleportBlock) block).getTeleportLocation().clone());
+        if (
+            ((TeleportBlock) block).getTeleportLocation() != null
+                && level.moveEntity(entity, ((TeleportBlock) block).getTeleportLocation().clone())
+        ) {
+            level.addParticules(
+                Color.color(0, 0, 1),
+                block.getLocation(),
+                200,
+                new DefaultParticuleUpdater(),
+                20
+            );
         }
 
     }

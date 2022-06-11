@@ -24,6 +24,17 @@ public class ZeldaLikeApplication extends Application {
     public static final int WIDTH = 1600;
     public static final int HEIGHT = 900;
 
+    private static int fps = 0;
+    private static int tps = 0;
+
+    public static int getFps() {
+        return ZeldaLikeApplication.fps;
+    }
+
+    public static int getTps() {
+        return ZeldaLikeApplication.tps;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         final ZeldaLike zeldaLike = new ImplZeldaLike(
@@ -51,9 +62,18 @@ public class ZeldaLikeApplication extends Application {
 
         // TODO: Mise a jour du rendu (~60FPS)
         final AnimationTimer frameTimer = new AnimationTimer() {
+            int counter = 0;
+            long lastTime = System.currentTimeMillis();
             @Override
             public void handle(long l) {
                 zeldaLike.getLevelManager().getRender().render();
+                counter++;
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastTime >= 1000L) {
+                    ZeldaLikeApplication.fps = counter;
+                    counter = 0;
+                    lastTime += 1000;
+                }
             }
         };
         frameTimer.start();
@@ -62,14 +82,23 @@ public class ZeldaLikeApplication extends Application {
         Thread tickTimer = new Thread(() -> {
             final double tickTimeOffset = 1000000000.0/20.0;
             long lastTickTime = System.nanoTime();
+            long lastTime = System.currentTimeMillis();
+            int tps = 0;
             while (!Thread.currentThread().isInterrupted()) {
                 long currentTickTime = System.nanoTime();
+                long currentTime = System.currentTimeMillis();
                 if (currentTickTime - lastTickTime > tickTimeOffset) {
                     lastTickTime += tickTimeOffset;
                     final Level level = zeldaLike.getLevelManager().get();
                     if (level != null) {
                         level.getUpdaterManager().update();
                     }
+                    tps++;
+                }
+                if (currentTime - lastTime >= 1000) {
+                    ZeldaLikeApplication.tps = tps;
+                    tps = 0;
+                    lastTime += 1000;
                 }
             }
         });
@@ -88,7 +117,7 @@ public class ZeldaLikeApplication extends Application {
             .register(ImplController.create(Controller.DOWN, KeyCode.S, KeyCode.DOWN))
             .register(ImplController.create(Controller.LEFT, KeyCode.Q, KeyCode.LEFT))
             .register(ImplController.create(Controller.RIGHT, KeyCode.D, KeyCode.RIGHT))
-            .register(ImplController.create(Controller.ACTION, KeyCode.SPACE))
+            .register(ImplController.create(Controller.ACTION, KeyCode.SPACE, MouseButton.PRIMARY))
             .register(ImplController.create(Controller.OPEN_INVENTORY, KeyCode.E))
             .register(ImplController.create(Controller.SLOT_1, KeyCode.DIGIT1, KeyCode.NUMPAD0))
             .register(ImplController.create(Controller.SLOT_2, KeyCode.DIGIT2, KeyCode.NUMPAD1))
@@ -100,6 +129,8 @@ public class ZeldaLikeApplication extends Application {
             .register(ImplController.create(Controller.SLOT_8, KeyCode.DIGIT8, KeyCode.NUMPAD7))
             .register(ImplController.create(Controller.SLOT_9, KeyCode.DIGIT9, KeyCode.NUMPAD8))
             .register(ImplController.create(Controller.SLOT_10, KeyCode.DIGIT0, KeyCode.NUMPAD9))
+            .register(ImplController.create(Controller.FUNCTION_1, KeyCode.F1))
+            .register(ImplController.create(Controller.FUNCTION_2, KeyCode.F2));
         ;
 
 

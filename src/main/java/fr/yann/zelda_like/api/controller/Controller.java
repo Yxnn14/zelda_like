@@ -24,7 +24,8 @@ public interface Controller
     public static final String SLOT_9 = "SLOT_9";
     public static final String SLOT_10 = "SLOT_10";
 
-
+    public static final String FUNCTION_1 = "FUNCTION_1";
+    public static final String FUNCTION_2 = "FUNCTION_2";
 
     String getKey();
 

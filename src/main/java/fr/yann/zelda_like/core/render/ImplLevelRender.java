@@ -9,6 +9,7 @@ public class ImplLevelRender implements LevelRender {
     private final ZeldaLike zeldaLike;
     private final Render blockRender;
     private final Render entityRender;
+    private final Render particuleRender;
 
     private final Render hudRender;
     private Group group;
@@ -17,6 +18,7 @@ public class ImplLevelRender implements LevelRender {
         this.zeldaLike = zeldaLike;
         this.blockRender = new BlockRender(zeldaLike, this);
         this.entityRender = new EntityRender(zeldaLike, this);
+        this.particuleRender = new ParticuleRender(zeldaLike, this);
         this.hudRender = new HUDRender(zeldaLike, this);
     }
 
@@ -48,6 +50,7 @@ public class ImplLevelRender implements LevelRender {
 
         this.blockRender.render();
         this.entityRender.render();
+        this.particuleRender.render();
         this.hudRender.render();
 
         this.zeldaLike.getScene().getChildren().add(0, this.group);
