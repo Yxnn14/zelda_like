@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class DemoTwoBlock extends AbstractBlock {
-    private static final Image texture = new Image("assets/textures/wall.png");
+    private static final Image TEXTURE = new Image("assets/textures/wall.png");
 
     public DemoTwoBlock(ZeldaLike zeldaLike, Location location) {
         super(zeldaLike, location, Color.color(0, 0.5, 0.5), false);
@@ -14,6 +14,6 @@ public class DemoTwoBlock extends AbstractBlock {
 
     @Override
     public Image getTexture() {
-        return DemoTwoBlock.texture;
+        return DemoTwoBlock.TEXTURE;
     }
 }

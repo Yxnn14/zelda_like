@@ -39,8 +39,8 @@ public class EntityRender implements Render {
         final double xRatio = (double) ZeldaLikeApplication.WIDTH / (double) level.getWidth();
         final double yRatio = (double) ZeldaLikeApplication.HEIGHT / (double) level.getHeight();
 
-        final double width = xRatio / 2.0;
-        final double height = yRatio / 2.0;
+        final double width = xRatio * 0.75;
+        final double height = yRatio * 0.75;
 
         final double xOffset = (xRatio - width) / 2.0;
         final double yOffset = (yRatio - height) / 2.0;

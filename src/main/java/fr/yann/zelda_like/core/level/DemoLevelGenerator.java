@@ -34,13 +34,13 @@ public class DemoLevelGenerator implements LevelGenerator {
         }
 
         level.spawn(ImplPlayerEntity.class, ImplLocation.create(level.getWidth() / 2, level.getHeight() / 2));
-        ItemEntity itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(20, 14));
+        ItemEntity itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(1, 2));
         itemEntity.setItem(new DemoItem());
 
-        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(20, 13));
+        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(5, 7));
         itemEntity.setItem(new DemoTwoItem());
 
-        DemoMonsterEntity demoMonsterEntity = level.spawn(DemoMonsterEntity.class, ImplLocation.create(25, 25, Location.Orientation.SOUTH));
+        DemoMonsterEntity demoMonsterEntity = level.spawn(DemoMonsterEntity.class, ImplLocation.create(10, 3, Location.Orientation.SOUTH));
         demoMonsterEntity.getUpdaterManager().add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 3, 4));
     }
 }
