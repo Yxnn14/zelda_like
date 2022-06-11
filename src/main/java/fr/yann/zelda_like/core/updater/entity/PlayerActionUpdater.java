@@ -6,7 +6,6 @@ import fr.yann.zelda_like.api.entity.BulletEntity;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
-import fr.yann.zelda_like.api.inventory.BulletItem;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.Updater;
