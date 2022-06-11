@@ -5,7 +5,6 @@ import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.controller.Controller;
 import fr.yann.zelda_like.api.entity.BulletEntity;
 import fr.yann.zelda_like.api.entity.Entity;
-import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.Location;
@@ -44,7 +43,7 @@ public class PlayerActionUpdater implements Updater<Entity> {
             return;
         }
         final Block block = level.getBlockAt(location);
-        if (!block.interact(entity) && targetEntity == null) {
+        if (!block.interact(entity) && block.isTransparent() && targetEntity == null) {
             BulletEntity bulletEntity = level.spawn(ImplBulletEntity.class, entity.getLocation().add(x, y));
             bulletEntity.setItem(new DemoBulletItem());
         }
