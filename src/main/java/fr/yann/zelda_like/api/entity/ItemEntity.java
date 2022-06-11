@@ -7,4 +7,6 @@ public interface ItemEntity {
     Item getItem();
 
     void setItem(Item item);
+
+    boolean canPickup();
 }

@@ -27,4 +27,15 @@ public class ImplUpdaterManager<T> implements UpdaterManager<T> {
     public void update() {
         this.updaters.forEach(updater -> updater.update(this.zeldaLike, this.type));
     }
+
+    @Override
+    public UpdaterManager<T> remove(Class<? extends Updater<T>> updaterClass) {
+        final List<Updater<T>> list = new ArrayList<>(this.updaters);
+        for (Updater<T> updater : list) {
+            if (updater.getClass().equals(updaterClass)) {
+                this.updaters.remove(updater);
+            }
+        }
+        return this;
+    }
 }

@@ -2,12 +2,16 @@ package fr.yann.zelda_like.core.updater.entity;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.controller.Controller;
+import fr.yann.zelda_like.api.entity.BulletEntity;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
+import fr.yann.zelda_like.api.inventory.BulletItem;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.Updater;
+import fr.yann.zelda_like.core.entity.ImplBulletEntity;
+import fr.yann.zelda_like.core.inventory.DemoBulletItem;
 
 public class PlayerActionUpdater implements Updater<Entity> {
 
@@ -23,24 +27,33 @@ public class PlayerActionUpdater implements Updater<Entity> {
         }
 
         final Level level = zeldaLike.getLevelManager().get();
-        Entity targetEntity = null;
 
+
+
+        int x = 0;
+        int y = 0;
 
         if (entity.getLocation().getOrientation().equals(Location.Orientation.SOUTH)) {
-            targetEntity = level.getEntityAt(entity.getLocation().getX(), entity.getLocation().getY() + 1);
+            y = 1;
         } else if (entity.getLocation().getOrientation().equals(Location.Orientation.NORTH)) {
-            targetEntity = level.getEntityAt(entity.getLocation().getX(), entity.getLocation().getY() - 1);
+            y = -1;
         } else if (entity.getLocation().getOrientation().equals(Location.Orientation.WEST)) {
-            targetEntity = level.getEntityAt(entity.getLocation().getX() - 1, entity.getLocation().getY());
+            x = -1;
         } else if (entity.getLocation().getOrientation().equals(Location.Orientation.EAST)) {
-            targetEntity = level.getEntityAt(entity.getLocation().getX() + 1, entity.getLocation().getY());
+            x = 1;
         }
-
+        Entity targetEntity = level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y);
         if (targetEntity instanceof ItemEntity itemEntity) {
-
-            ((PlayerEntity) entity).getInventory().addItem(itemEntity.getItem());
-            level.removeEntity(targetEntity);
-
+            if (itemEntity.canPickup()) {
+                ((PlayerEntity) entity).getInventory().addItem(itemEntity.getItem());
+                level.removeEntity(targetEntity);
+            }
+            return;
         }
+        if (targetEntity == null) {
+            BulletEntity bulletEntity = level.spawn(ImplBulletEntity.class, entity.getLocation().add(x, y));
+            bulletEntity.setItem(new DemoBulletItem());
+        }
+
     }
 }

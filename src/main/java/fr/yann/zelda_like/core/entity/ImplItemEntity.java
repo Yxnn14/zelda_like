@@ -33,4 +33,9 @@ public class ImplItemEntity extends AbstractEntity implements ItemEntity {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    @Override
+    public boolean canPickup() {
+        return true;
+    }
 }

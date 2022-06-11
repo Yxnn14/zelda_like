@@ -9,6 +9,7 @@ import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
+import fr.yann.zelda_like.core.block.BarrierBlock;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
 
 import java.util.ArrayList;
@@ -65,7 +66,8 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public Block getBlockAt(int x, int y) {
-        return this.getObjectAt(this.blocks, x, y);
+        final Block block = this.getObjectAt(this.blocks, x, y);
+        return block != null ? block : new BarrierBlock(this.zeldaLike, ImplLocation.create(x, y));
     }
 
     @Override
@@ -116,8 +118,10 @@ public abstract class AbstractLevel implements Level {
     }
 
     private <T> T getObjectAt(T[][] objects, int x, int y) {
-        final T[] object = objects[x % objects.length];
-        return object[y % object.length];
+        if (x < 0 || x >= objects.length || y < 0 || objects[x].length >= y) {
+            return null;
+        }
+        return objects[x][y];
     }
 
     private <T> List<T> getObjects(T[][] objects) {
