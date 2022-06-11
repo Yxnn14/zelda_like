@@ -71,8 +71,8 @@ public abstract class AbstractLevel implements Level {
     }
 
     @Override
-    public void setBlock(Class<? extends Block> blockClass, Location location) {
-        this.setObject(this.blocks, blockClass, location);
+    public <T extends Block> T setBlock(Class<T> blockClass, Location location) {
+        return (T) this.setObject(this.blocks, blockClass, location);
     }
 
     @Override

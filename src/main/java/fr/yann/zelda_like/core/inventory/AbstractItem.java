@@ -2,6 +2,7 @@ package fr.yann.zelda_like.core.inventory;
 
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.inventory.Item;
+import fr.yann.zelda_like.api.level.Location;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -34,5 +35,10 @@ public abstract class AbstractItem implements Item {
     @Override
     public Image getTexture() {
         return null;
+    }
+
+    @Override
+    public Image getTexture(Location.Orientation orientation) {
+        return this.getTexture();
     }
 }

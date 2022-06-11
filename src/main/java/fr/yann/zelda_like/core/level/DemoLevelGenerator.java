@@ -1,12 +1,12 @@
 package fr.yann.zelda_like.core.level;
 
+import fr.yann.zelda_like.api.block.Block;
+import fr.yann.zelda_like.api.block.TeleportBlock;
 import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
-import fr.yann.zelda_like.core.block.DemoBlock;
-import fr.yann.zelda_like.core.block.DemoThreeBlock;
-import fr.yann.zelda_like.core.block.DemoTwoBlock;
+import fr.yann.zelda_like.core.block.*;
 import fr.yann.zelda_like.core.entity.DemoMonsterEntity;
 import fr.yann.zelda_like.core.entity.ImplItemEntity;
 import fr.yann.zelda_like.core.entity.ImplPlayerEntity;
@@ -22,16 +22,23 @@ public class DemoLevelGenerator implements LevelGenerator {
         final Random random = new Random();
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                level.setBlock(
-                    random.nextInt(100) > 25
-                        ? random.nextInt(100) > 1
-                            ? DemoBlock.class
-                            : DemoThreeBlock.class
-                        : DemoTwoBlock.class,
-                    ImplLocation.create(x, y)
-                );
+                if (random.nextInt(100) > 25) {
+                    if (random.nextInt(100) > 1) {
+                        level.setBlock(GroundBlock.class, ImplLocation.create(x, y));
+                        continue;
+                    }
+                    level.setBlock(DemoThreeBlock.class, ImplLocation.create(x,y));
+                    continue;
+                }
+
+                level.setBlock(WallBlock.class, ImplLocation.create(x, y));
             }
         }
+        level.setBlock(BombBlock.class, ImplLocation.create(8, 8));
+        TeleportBlock teleporterBlock = level.setBlock(ImplTeleporterBlock.class, ImplLocation.create(9, 8));
+        teleporterBlock.setTeleportLocation(ImplLocation.create(2, 2));
+        level.setBlock(DoorBlock.class, ImplLocation.create(9, 7));
+
 
         level.spawn(ImplPlayerEntity.class, ImplLocation.create(level.getWidth() / 2, level.getHeight() / 2));
         ItemEntity itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(1, 2));

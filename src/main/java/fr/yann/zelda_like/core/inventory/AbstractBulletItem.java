@@ -1,6 +1,8 @@
 package fr.yann.zelda_like.core.inventory;
 
 import fr.yann.zelda_like.api.inventory.BulletItem;
+import fr.yann.zelda_like.api.level.Location;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public abstract class AbstractBulletItem extends AbstractItem implements BulletItem {

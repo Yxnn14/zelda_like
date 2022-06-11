@@ -7,6 +7,7 @@ import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.Location;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class ImplItemEntity extends AbstractEntity implements ItemEntity {
@@ -50,5 +51,10 @@ public class ImplItemEntity extends AbstractEntity implements ItemEntity {
             return true;
         }
         return super.interact(entity);
+    }
+
+    @Override
+    public Image getTexture() {
+        return this.item != null ? this.item.getTexture(this.getLocation().getOrientation()) : super.getTexture();
     }
 }

@@ -5,7 +5,6 @@ import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.inventory.Inventory;
 import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Location;
-import fr.yann.zelda_like.core.block.DemoBlock;
 import fr.yann.zelda_like.core.inventory.PlayerInventory;
 import fr.yann.zelda_like.core.updater.entity.ControllerUpdater;
 import fr.yann.zelda_like.core.updater.entity.InventoryOpeningUpdater;

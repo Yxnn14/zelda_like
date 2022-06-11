@@ -24,7 +24,7 @@ public interface Level {
         return this.getBlockAt(location.getX(), location.getY());
     }
 
-    void setBlock(Class<? extends Block> blockClass, Location location);
+    <T extends Block> T setBlock(Class<T> blockClass, Location location);
 
     List<Entity> getEntities();
 

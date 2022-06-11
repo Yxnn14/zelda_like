@@ -5,17 +5,17 @@ import fr.yann.zelda_like.api.level.Location;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class DemoBlock extends AbstractBlock {
+public class GroundBlock extends AbstractBlock {
 
     private static final Image TEXTURE = new Image("assets/textures/ground.png");
 
-    public DemoBlock(ZeldaLike zeldaLike, Location location) {
+    public GroundBlock(ZeldaLike zeldaLike, Location location) {
         super(zeldaLike, location, Color.color(0.5, 0, 0.5));
     }
 
     @Override
     public Image getTexture() {
-        return DemoBlock.TEXTURE;
+        return GroundBlock.TEXTURE;
     }
 }
 
