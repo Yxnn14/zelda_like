@@ -3,13 +3,16 @@ package fr.yann.zelda_like.core.level;
 import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
+import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.core.block.DemoBlock;
 import fr.yann.zelda_like.core.block.DemoThreeBlock;
 import fr.yann.zelda_like.core.block.DemoTwoBlock;
+import fr.yann.zelda_like.core.entity.DemoMonsterEntity;
 import fr.yann.zelda_like.core.entity.ImplItemEntity;
 import fr.yann.zelda_like.core.entity.ImplPlayerEntity;
 import fr.yann.zelda_like.core.inventory.DemoItem;
 import fr.yann.zelda_like.core.inventory.DemoTwoItem;
+import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
 
 import java.util.Random;
 
@@ -36,5 +39,8 @@ public class DemoLevelGenerator implements LevelGenerator {
 
         itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(20, 13));
         itemEntity.setItem(new DemoTwoItem());
+
+        DemoMonsterEntity demoMonsterEntity = level.spawn(DemoMonsterEntity.class, ImplLocation.create(25, 25, Location.Orientation.SOUTH));
+        demoMonsterEntity.getUpdaterManager().add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 3, 4));
     }
 }

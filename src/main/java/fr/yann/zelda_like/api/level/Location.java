@@ -11,6 +11,8 @@ public interface Location {
 
     Location addY(int y);
     Location removeY(int y);
+    Location add(int x, int y);
+    Location remove(int x, int y);
 
     Orientation getOrientation();
 

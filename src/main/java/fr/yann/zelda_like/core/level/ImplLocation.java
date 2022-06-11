@@ -53,6 +53,16 @@ public class ImplLocation implements Location {
     }
 
     @Override
+    public Location add(int x, int y) {
+        return ImplLocation.create(this.x + x, this.y + y, this.orientation);
+    }
+
+    @Override
+    public Location remove(int x, int y) {
+        return ImplLocation.create(this.x - x, this.y - y, this.orientation);
+    }
+
+    @Override
     public Orientation getOrientation() {
         return this.orientation;
     }
