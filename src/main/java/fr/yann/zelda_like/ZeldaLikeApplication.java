@@ -2,6 +2,7 @@ package fr.yann.zelda_like;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.controller.Controller;
+import fr.yann.zelda_like.api.controller.Cursor;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.core.ImplZeldaLike;
 import fr.yann.zelda_like.core.controller.ImplController;
@@ -12,6 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -101,8 +103,15 @@ public class ZeldaLikeApplication extends Application {
         ;
 
 
-        final BiConsumer<KeyCode, Boolean> keyController = (keyCode, pressed) -> {
-            final Controller controller = zeldaLike.getControllerManager().by(keyCode);
+        final BiConsumer<Object, Boolean> keyController = (key, pressed) -> {
+            final Controller controller;
+            if (key instanceof KeyCode keyCode) {
+                controller = zeldaLike.getControllerManager().by(keyCode);
+            } else if (key instanceof MouseButton mouseButton) {
+                controller = zeldaLike.getControllerManager().by(mouseButton);
+            } else {
+                controller = null;
+            }
             if (controller != null) {
                 controller.setPressed(pressed);
             }
@@ -110,6 +119,24 @@ public class ZeldaLikeApplication extends Application {
 
         scene.setOnKeyPressed(keyEvent -> keyController.accept(keyEvent.getCode(), true));
         scene.setOnKeyReleased(keyEvent -> keyController.accept(keyEvent.getCode(), false));
+
+        scene.setOnMouseMoved(
+            mouseEvent -> zeldaLike.getControllerManager().getCursor()
+                .move(mouseEvent.getX(), mouseEvent.getY())
+        );
+
+        scene.setOnMousePressed(mouseEvent -> keyController.accept(mouseEvent.getButton(), true));
+        scene.setOnMouseReleased(mouseEvent -> {
+            keyController.accept(mouseEvent.getButton(), false);
+            zeldaLike.getControllerManager().getCursor().setDragged(false);
+            zeldaLike.getControllerManager().getCursor().move(mouseEvent.getX(), mouseEvent.getY());
+        });
+
+        scene.setOnMouseDragged(mouseEvent -> {
+            final Cursor cursor = zeldaLike.getControllerManager().getCursor();
+            cursor.setDragged(true);
+            cursor.moveDrag(mouseEvent.getX(), mouseEvent.getY());
+        });
     }
 
     public static void main(String[] args) {

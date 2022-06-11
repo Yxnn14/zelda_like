@@ -1,6 +1,7 @@
 package fr.yann.zelda_like.api.level;
 
 import fr.yann.zelda_like.api.block.Block;
+import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
@@ -41,5 +42,11 @@ public interface Level {
 
     LevelGenerator getGenerator();
 
+    DialogManager getDialogManager();
+
     UpdaterManager<Level> getUpdaterManager();
+
+    boolean isPause();
+
+    void setPause(boolean pause);
 }

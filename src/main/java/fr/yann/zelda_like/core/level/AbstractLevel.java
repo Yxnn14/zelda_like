@@ -1,6 +1,7 @@
 package fr.yann.zelda_like.core.level;
 
 import fr.yann.zelda_like.api.ZeldaLike;
+import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.block.Block;
@@ -21,16 +22,25 @@ public abstract class AbstractLevel implements Level {
     protected final ZeldaLike zeldaLike;
 
     protected final LevelGenerator generator;
+    protected final DialogManager dialogManager;
     protected final UpdaterManager<Level> updaterManager;
 
     protected PlayerEntity player;
+    protected boolean pause;
 
-    protected AbstractLevel(ZeldaLike zeldaLike, int width, int height, LevelGenerator generator) {
+    protected AbstractLevel(
+        ZeldaLike zeldaLike,
+        int width,
+        int height,
+        LevelGenerator generator,
+        DialogManager dialogManager
+    ) {
         this.zeldaLike = zeldaLike;
         this.blocks = new Block[width][height];
         this.entities = new Entity[width][height];
         this.generator = generator;
         this.updaterManager = new ImplUpdaterManager<>(zeldaLike, this);
+        this.dialogManager = dialogManager;
     }
 
     @Override
@@ -137,8 +147,22 @@ public abstract class AbstractLevel implements Level {
         return this.generator;
     }
 
+    public DialogManager getDialogManager() {
+        return this.dialogManager;
+    }
+
     @Override
     public UpdaterManager<Level> getUpdaterManager() {
         return this.updaterManager;
+    }
+
+    @Override
+    public boolean isPause() {
+        return this.pause;
+    }
+
+    @Override
+    public void setPause(boolean pause) {
+        this.pause = pause;
     }
 }

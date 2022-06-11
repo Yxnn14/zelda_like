@@ -1,6 +1,7 @@
 package fr.yann.zelda_like.api.controller;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 
 public interface Controller
 {
@@ -30,6 +31,8 @@ public interface Controller
     KeyCode getKeyCodePrimary();
 
     KeyCode getKeyCodeSecondary();
+
+    MouseButton getButton();
 
     boolean isPressed();
 

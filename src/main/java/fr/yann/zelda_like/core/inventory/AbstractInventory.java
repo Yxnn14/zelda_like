@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AbstractInventory implements Inventory {
+public abstract class AbstractInventory implements Inventory {
 
     protected final Item[] items;
 
@@ -62,6 +62,16 @@ public class AbstractInventory implements Inventory {
     @Override
     public Item getItemAt(int slot) {
         return this.items[slot];
+    }
+
+    @Override
+    public int getSlotOf(Item item) {
+        for (int i = 0; i < this.items.length; i++) {
+            if (item.equals(this.items[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override

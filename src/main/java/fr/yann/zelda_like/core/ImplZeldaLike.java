@@ -2,6 +2,7 @@ package fr.yann.zelda_like.core;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.controller.ControllerManager;
+import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.level.LevelManager;
 import fr.yann.zelda_like.core.controller.ImplControllerManager;
 import fr.yann.zelda_like.core.level.ImplLevelManager;

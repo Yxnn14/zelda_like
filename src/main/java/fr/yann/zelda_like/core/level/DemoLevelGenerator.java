@@ -9,6 +9,7 @@ import fr.yann.zelda_like.core.block.DemoTwoBlock;
 import fr.yann.zelda_like.core.entity.ImplItemEntity;
 import fr.yann.zelda_like.core.entity.ImplPlayerEntity;
 import fr.yann.zelda_like.core.inventory.DemoItem;
+import fr.yann.zelda_like.core.inventory.DemoTwoItem;
 
 import java.util.Random;
 
@@ -32,5 +33,8 @@ public class DemoLevelGenerator implements LevelGenerator {
         level.spawn(ImplPlayerEntity.class, ImplLocation.create(level.getWidth() / 2, level.getHeight() / 2));
         ItemEntity itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(20, 14));
         itemEntity.setItem(new DemoItem());
+
+        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(20, 13));
+        itemEntity.setItem(new DemoTwoItem());
     }
 }

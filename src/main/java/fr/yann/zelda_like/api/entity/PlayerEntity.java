@@ -1,6 +1,7 @@
 package fr.yann.zelda_like.api.entity;
 
 import fr.yann.zelda_like.api.inventory.Inventory;
+import fr.yann.zelda_like.api.inventory.Item;
 
 public interface PlayerEntity extends MoneyEntity, InventoryEntity {
     Inventory getInventoryView();
@@ -8,4 +9,8 @@ public interface PlayerEntity extends MoneyEntity, InventoryEntity {
     void openInventory(Inventory inventory);
 
     void closeInventory();
+
+    Item getCursorItem();
+
+    void setCursorItem(Item item);
 }

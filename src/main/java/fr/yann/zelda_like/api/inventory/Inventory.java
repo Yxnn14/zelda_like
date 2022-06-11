@@ -16,6 +16,8 @@ public interface Inventory {
 
     Item getItemAt(int slot);
 
+    int getSlotOf(Item item);
+
     int getSize();
 
     void clear();

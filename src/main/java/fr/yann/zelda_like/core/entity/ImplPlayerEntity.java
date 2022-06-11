@@ -3,6 +3,7 @@ package fr.yann.zelda_like.core.entity;
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.inventory.Inventory;
+import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.core.inventory.PlayerInventory;
 import fr.yann.zelda_like.core.updater.entity.ControllerUpdater;
@@ -16,6 +17,7 @@ public class ImplPlayerEntity extends AbstractMoneyEntity implements PlayerEntit
     private final Inventory inventory;
 
     private Inventory inventoryView;
+    private Item cursorItem;
 
     public ImplPlayerEntity(ZeldaLike zeldaLike, Location location) {
         super(zeldaLike, "Player", location, Color.color(0.5, 0.5, 0), 20);
@@ -45,5 +47,15 @@ public class ImplPlayerEntity extends AbstractMoneyEntity implements PlayerEntit
     @Override
     public void closeInventory() {
         this.inventoryView = null;
+    }
+
+    @Override
+    public Item getCursorItem() {
+        return this.cursorItem;
+    }
+
+    @Override
+    public void setCursorItem(Item item) {
+        this.cursorItem = item;
     }
 }
