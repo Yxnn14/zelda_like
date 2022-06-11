@@ -2,12 +2,13 @@ package fr.yann.zelda_like.core.block;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.block.Block;
+import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
 import javafx.scene.paint.Color;
 
-public class AbstractBlock implements Block {
+public abstract class AbstractBlock implements Block {
 
     protected final Location location;
     protected final Color color;
@@ -45,5 +46,10 @@ public class AbstractBlock implements Block {
     @Override
     public UpdaterManager<Block> getUpdaterManager() {
         return this.updaterManager;
+    }
+
+    @Override
+    public boolean interact(Entity entity) {
+        return false;
     }
 }

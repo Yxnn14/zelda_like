@@ -2,6 +2,7 @@ package fr.yann.zelda_like.core.entity;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.entity.BulletEntity;
+import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.inventory.BulletItem;
 import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Location;
@@ -25,6 +26,11 @@ public class ImplBulletEntity extends ImplItemEntity implements BulletEntity {
 
     @Override
     public boolean canPickup() {
+        return false;
+    }
+
+    @Override
+    public boolean interact(Entity entity) {
         return false;
     }
 }

@@ -1,8 +1,11 @@
 package fr.yann.zelda_like.core.entity;
 
 import fr.yann.zelda_like.api.ZeldaLike;
+import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.ItemEntity;
+import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.inventory.Item;
+import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.Location;
 import javafx.scene.paint.Color;
 
@@ -37,5 +40,15 @@ public class ImplItemEntity extends AbstractEntity implements ItemEntity {
     @Override
     public boolean canPickup() {
         return true;
+    }
+
+    @Override
+    public boolean interact(Entity entity) {
+        if (entity instanceof PlayerEntity && this.canPickup()) {
+            ((PlayerEntity) entity).getInventory().addItem(this.getItem());
+            this.zeldaLike.getLevelManager().get().removeEntity(this);
+            return true;
+        }
+        return super.interact(entity);
     }
 }

@@ -19,6 +19,7 @@ public interface Entity {
 
     int getHealth();
 
-
     UpdaterManager<Entity> getUpdaterManager();
+
+    boolean interact(Entity entity);
 }

@@ -13,11 +13,13 @@ public abstract class AbstractEntity implements Entity {
     private final Color color;
 
     private Location location;
+    protected ZeldaLike zeldaLike;
 
     protected int health;
 
 
     protected AbstractEntity(ZeldaLike zeldaLike, String name, Location location, Color color, int health) {
+        this.zeldaLike = zeldaLike;
         this.name = name;
         this.location = location;
         this.color = color;
@@ -53,5 +55,10 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public int getHealth() {
         return this.health;
+    }
+
+    @Override
+    public boolean interact(Entity entity) {
+        return false;
     }
 }
