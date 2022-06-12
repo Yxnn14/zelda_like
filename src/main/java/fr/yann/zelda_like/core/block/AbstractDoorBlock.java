@@ -1,11 +1,12 @@
 package fr.yann.zelda_like.core.block;
 
 import fr.yann.zelda_like.api.ZeldaLike;
+import fr.yann.zelda_like.api.block.DoorBlock;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.level.Location;
 import javafx.scene.paint.Color;
 
-public class AbstractDoorBlock extends AbstractBlock {
+public class AbstractDoorBlock extends AbstractBlock implements DoorBlock {
 
     private boolean open;
 
@@ -17,10 +18,12 @@ public class AbstractDoorBlock extends AbstractBlock {
         super(zeldaLike, location, color, transparent);
     }
 
+    @Override
     public boolean isOpen() {
         return open;
     }
 
+    @Override
     public void setOpen(boolean open) {
         this.open = open;
     }

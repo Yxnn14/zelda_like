@@ -15,5 +15,9 @@ public interface Objective {
 
     void setComplete(boolean complete);
 
+    boolean isHidden();
+
+    void setHidden(boolean hidden);
+
     UpdaterManager<Objective> getUpdaterManager();
 }

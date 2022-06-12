@@ -24,6 +24,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HUDRender implements Render {
 
@@ -56,8 +57,13 @@ public class HUDRender implements Render {
 
         if (level.isHUDShow() && player != null) {
             this.drawPlayerInformation(player);
-            this.drawInventory(player.getInventory());
-            this.drawObjectives(level.getObjectiveManager().getObjectives());
+            this.drawInventory(player.getInventory());;
+            this.drawObjectives(
+                level.getObjectiveManager().getObjectives()
+                    .stream()
+                    .filter(objective -> !objective.isHidden())
+                    .collect(Collectors.toList())
+            );
         }
 
         if (level.isDebugShow()) {

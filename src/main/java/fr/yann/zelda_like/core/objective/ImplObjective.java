@@ -13,6 +13,8 @@ public class ImplObjective implements Objective {
 
     private boolean complete;
 
+    private boolean hidden;
+
     protected ImplObjective(ZeldaLike zeldaLike, String title, String description) {
         this.title = title;
         this.description = description;
@@ -47,6 +49,16 @@ public class ImplObjective implements Objective {
     @Override
     public void setComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    @Override
+    public boolean isHidden() {
+        return this.hidden;
+    }
+
+    @Override
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     @Override

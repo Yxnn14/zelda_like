@@ -1,5 +1,6 @@
 package fr.yann.zelda_like.core.level.generator;
 
+import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.block.TeleportBlock;
 import fr.yann.zelda_like.api.entity.MerchantEntity;
 import fr.yann.zelda_like.api.entity.MonsterEntity;
@@ -8,13 +9,17 @@ import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.objective.Objective;
+import fr.yann.zelda_like.api.objective.ObjectiveManager;
 import fr.yann.zelda_like.core.block.*;
 import fr.yann.zelda_like.core.dialog.ImplDialog;
 import fr.yann.zelda_like.core.entity.*;
 import fr.yann.zelda_like.core.inventory.KeyItem;
 import fr.yann.zelda_like.core.inventory.PotionHealthItem;
 import fr.yann.zelda_like.core.level.ImplLocation;
+import fr.yann.zelda_like.core.updater.block.LevelOneVictoryUpdater;
 import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
+import fr.yann.zelda_like.core.updater.objective.CompleteAllObjectiveUpdater;
+import fr.yann.zelda_like.core.updater.objective.DoorOpenObjectiveUpdater;
 import fr.yann.zelda_like.core.updater.objective.KeyObjectiveUpdater;
 import fr.yann.zelda_like.core.updater.objective.KillMonsterObjectiveUpdater;
 
@@ -53,7 +58,8 @@ public class OneLevelGenerator implements LevelGenerator {
                 }
                 if (y == 12 && x >= 7) {
                     if (x == 26) {
-                        level.setBlock(DoorBlock.class, ImplLocation.create(x, y));
+                        Block door = level.setBlock(SimpleDoorBlock.class, ImplLocation.create(x, y));
+                        door.getUpdaterManager().add(new LevelOneVictoryUpdater());
                         continue;
                     }
                     level.setBlock(WallBlock.class, ImplLocation.create(x, y));
@@ -143,6 +149,20 @@ public class OneLevelGenerator implements LevelGenerator {
         objective = level.getObjectiveManager()
                 .create("Tuer tous les monstres", "Attaquer avec SPACE");
         objective.getUpdaterManager().add(new KillMonsterObjectiveUpdater());
+        level.getObjectiveManager().add(objective);
+
+        objective = level.getObjectiveManager().create("Terminer les objectifs", "Finir les objectifs");
+        objective.setHidden(true);
+        objective.getUpdaterManager()
+            .add(new CompleteAllObjectiveUpdater((zeldaLike) -> {
+                final ObjectiveManager objectiveManager = zeldaLike.getLevelManager().get().getObjectiveManager();
+                final Objective newObjective = objectiveManager.create(
+                    "Ouvrir la porte",
+                    "Passer la porte du début"
+                );
+                newObjective.getUpdaterManager().add(new DoorOpenObjectiveUpdater(ImplLocation.create(26, 12)));
+                objectiveManager.add(newObjective);
+            }));
         level.getObjectiveManager().add(objective);
     }
 }

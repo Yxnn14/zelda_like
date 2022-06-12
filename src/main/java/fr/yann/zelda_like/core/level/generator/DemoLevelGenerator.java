@@ -45,7 +45,7 @@ public class DemoLevelGenerator implements LevelGenerator {
         TeleportBlock teleporterBlock = level.setBlock(ImplTeleporterBlock.class, ImplLocation.create(3, 3));
         teleporterBlock.setTeleportLocation(ImplLocation.create(3, 8));
 
-        level.setBlock(DoorBlock.class, ImplLocation.create(9, 7));
+        level.setBlock(SimpleDoorBlock.class, ImplLocation.create(9, 7));
 
 
         level.spawn(ImplPlayerEntity.class, ImplLocation.create(level.getWidth() / 2, level.getHeight() / 2));

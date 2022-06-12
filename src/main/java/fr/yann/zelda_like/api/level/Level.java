@@ -77,4 +77,8 @@ public interface Level {
     boolean isDebugShow();
 
     void setDebugShow(boolean debugShow);
+
+    boolean isVictory();
+
+    void setVictory(boolean victory);
 }

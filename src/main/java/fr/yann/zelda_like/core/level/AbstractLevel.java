@@ -44,6 +44,7 @@ public abstract class AbstractLevel implements Level {
     protected boolean pause;
     protected boolean hudShow = true;
     protected boolean debugShow;
+    protected boolean victory;
 
     protected AbstractLevel(
         ZeldaLike zeldaLike,
@@ -305,5 +306,15 @@ public abstract class AbstractLevel implements Level {
     @Override
     public void setDebugShow(boolean debugShow) {
         this.debugShow = debugShow;
+    }
+
+    @Override
+    public boolean isVictory() {
+        return this.victory;
+    }
+
+    @Override
+    public void setVictory(boolean victory) {
+        this.victory = victory;
     }
 }
