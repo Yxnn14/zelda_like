@@ -16,6 +16,7 @@ public class ImplItemEntity extends AbstractEntity implements ItemEntity {
 
     public ImplItemEntity(ZeldaLike zeldaLike, Location location) {
         super(zeldaLike, "item Not Found", location, Color.color(0, 0, 0), 1);
+        super.invulnerable = true;
     }
 
     @Override

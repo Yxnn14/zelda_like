@@ -33,4 +33,9 @@ public class ImplBulletEntity extends ImplItemEntity implements BulletEntity {
     public boolean interact(Entity entity) {
         return false;
     }
+
+    @Override
+    public int getDamage() {
+        return this.item instanceof BulletItem ? ((BulletItem) this.item).getDamage() : super.getDamage();
+    }
 }

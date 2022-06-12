@@ -4,7 +4,7 @@ import fr.yann.zelda_like.api.updater.UpdaterManager;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public interface Particule {
+public interface Particle {
 
     Vector getLocation();
 
@@ -18,5 +18,5 @@ public interface Particule {
 
     Color getColor();
 
-    UpdaterManager<Particule> getUpdaterManager();
+    UpdaterManager<Particle> getUpdaterManager();
 }

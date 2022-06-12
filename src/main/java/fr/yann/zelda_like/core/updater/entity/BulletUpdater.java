@@ -42,13 +42,18 @@ public class BulletUpdater extends AbstractUpdater<Entity> {
             case SOUTH -> y = 1;
         }
 
+        final Entity target = level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y);
+
         final boolean remove = this.range >= ((BulletItem) item).getRange()
             || !level.getBlockAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y).isTransparent()
-            || level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y) != null;
+            || target != null;
 
         if (remove) {
+            if (target != null) {
+                level.damageEntity(entity, target);
+            }
             level.removeEntity(entity);
-            level.addParticules(
+            level.addParticles(
                 Color.color(1d, 0d, 1d),
                 entity.getLocation().add(x, y),
                 10,

@@ -35,8 +35,8 @@ public class DemoLevelGenerator implements LevelGenerator {
             }
         }
         level.setBlock(BombBlock.class, ImplLocation.create(8, 8));
-        TeleportBlock teleporterBlock = level.setBlock(ImplTeleporterBlock.class, ImplLocation.create(9, 8));
-        teleporterBlock.setTeleportLocation(ImplLocation.create(2, 2));
+        TeleportBlock teleporterBlock = level.setBlock(ImplTeleporterBlock.class, ImplLocation.create(3, 3));
+        teleporterBlock.setTeleportLocation(ImplLocation.create(3, 8));
         level.setBlock(DoorBlock.class, ImplLocation.create(9, 7));
 
 

@@ -9,11 +9,11 @@ import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
-import fr.yann.zelda_like.api.particule.Particule;
+import fr.yann.zelda_like.api.particule.Particle;
 import fr.yann.zelda_like.api.updater.ParticuleUpdater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import fr.yann.zelda_like.core.block.BarrierBlock;
-import fr.yann.zelda_like.core.particule.ImplParticule;
+import fr.yann.zelda_like.core.particule.ImplParticle;
 import fr.yann.zelda_like.core.particule.ImplVector;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
 import javafx.scene.image.Image;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractLevel implements Level {
-    protected List<Particule> particules = new ArrayList<>();
+    protected List<Particle> particles = new ArrayList<>();
     protected final Block[][] blocks;
     protected final Entity[][] entities;
 
@@ -124,21 +124,29 @@ public abstract class AbstractLevel implements Level {
     }
 
     @Override
-    public List<Particule> getParticules() {
-        return new ArrayList<>(this.particules);
+    public void damageEntity(Entity damager, Entity receiver) {
+        receiver.removeHealth(damager.getDamage());
+        if (receiver.getHealth() <= 0) {
+            this.removeEntity(receiver);
+        }
     }
 
     @Override
-    public void addParticules(Image particule, Location location, int count, ParticuleUpdater updater, int lifetime) {
-        this.addParticules(particule, Color.color(0, 0, 0), location, count, updater, lifetime);
+    public List<Particle> getParticles() {
+        return new ArrayList<>(this.particles);
     }
 
     @Override
-    public void addParticules(Color particule, Location location, int count, ParticuleUpdater updater, int lifetime) {
-        this.addParticules(null, particule, location, count, updater, lifetime);
+    public void addParticles(Image particle, Location location, int count, ParticuleUpdater updater, int lifetime) {
+        this.addParticles(particle, Color.color(0, 0, 0), location, count, updater, lifetime);
     }
 
-    private void addParticules(
+    @Override
+    public void addParticles(Color particle, Location location, int count, ParticuleUpdater updater, int lifetime) {
+        this.addParticles(null, particle, location, count, updater, lifetime);
+    }
+
+    private void addParticles(
         Image texture,
         Color color,
         Location location,
@@ -149,7 +157,7 @@ public abstract class AbstractLevel implements Level {
         final double xRatio = (double) ZeldaLikeApplication.WIDTH / (double) this.getWidth();
         final double yRatio = (double) ZeldaLikeApplication.HEIGHT / (double) this.getHeight();
         for (int i = 0; i < count; i++) {
-            final Particule currentParticule = new ImplParticule(
+            final Particle currentParticle = new ImplParticle(
                 this.zeldaLike,
                 texture,
                 color,
@@ -159,14 +167,14 @@ public abstract class AbstractLevel implements Level {
                 ),
                 lifetime
             );
-            currentParticule.getUpdaterManager().add(updater.clone());
-            this.particules.add(currentParticule);
+            currentParticle.getUpdaterManager().add(updater.clone());
+            this.particles.add(currentParticle);
         }
     }
 
     @Override
-    public void removeParticule(Particule particule) {
-        this.particules.remove(particule);
+    public void removeParticle(Particle particle) {
+        this.particles.remove(particle);
     }
 
     private <T> T getObjectAt(T[][] objects, int x, int y) {

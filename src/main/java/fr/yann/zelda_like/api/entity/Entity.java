@@ -19,7 +19,15 @@ public interface Entity {
 
     int getHealth();
 
+    void addHealth(int health);
+
+    void removeHealth(int health);
+
+    int getDamage();
+
     UpdaterManager<Entity> getUpdaterManager();
 
     boolean interact(Entity entity);
+
+    boolean isInvulnerable();
 }

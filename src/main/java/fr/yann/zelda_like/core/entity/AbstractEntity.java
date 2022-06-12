@@ -17,6 +17,7 @@ public abstract class AbstractEntity implements Entity {
     protected ZeldaLike zeldaLike;
 
     protected int health;
+    protected boolean invulnerable;
 
 
     protected AbstractEntity(ZeldaLike zeldaLike, String name, Location location, Color color, int health) {
@@ -55,7 +56,22 @@ public abstract class AbstractEntity implements Entity {
 
     @Override
     public int getHealth() {
-        return this.health;
+        return this.invulnerable ? 1 : this.health;
+    }
+
+    @Override
+    public void addHealth(int health) {
+        this.health += health;
+    }
+
+    @Override
+    public void removeHealth(int health) {
+        this.health -= health;
+    }
+
+    @Override
+    public int getDamage() {
+        return 0;
     }
 
     @Override
@@ -66,5 +82,10 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public Image getTexture() {
         return null;
+    }
+
+    @Override
+    public boolean isInvulnerable() {
+        return this.invulnerable;
     }
 }

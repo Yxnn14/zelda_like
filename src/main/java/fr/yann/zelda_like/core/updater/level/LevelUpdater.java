@@ -12,7 +12,7 @@ public class LevelUpdater implements Updater<Level> {
         if (!level.isPause()) {
             level.getEntities().forEach(entity -> entity.getUpdaterManager().update());
             level.getBlocks().forEach(block -> block.getUpdaterManager().update());
-            level.getParticules().forEach(particule -> particule.getUpdaterManager().update());
+            level.getParticles().forEach(particule -> particule.getUpdaterManager().update());
         }
         level.getDialogManager().getUpdaterManager().update();
 

@@ -35,7 +35,7 @@ public class ParticuleRender implements Render {
         this.group = new Group();
         final double size = ZeldaLikeApplication.WIDTH * 0.01;
 
-        level.getParticules()
+        level.getParticles()
             .forEach(particule -> {
                 final Image image = particule.getTexture();
                 if (image != null) {

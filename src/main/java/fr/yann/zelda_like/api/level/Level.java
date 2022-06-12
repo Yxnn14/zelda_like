@@ -4,9 +4,8 @@ import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
-import fr.yann.zelda_like.api.particule.Particule;
+import fr.yann.zelda_like.api.particule.Particle;
 import fr.yann.zelda_like.api.updater.ParticuleUpdater;
-import fr.yann.zelda_like.api.updater.Updater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -45,12 +44,14 @@ public interface Level {
 
     void removeEntity(Entity entity);
 
-    List<Particule> getParticules();
+    void damageEntity(Entity damager, Entity receiver);
 
-    void addParticules(Image particule, Location location, int count, ParticuleUpdater updater, int lifetime);
-    void addParticules(Color particule, Location location, int count, ParticuleUpdater updater, int lifetime);
+    List<Particle> getParticles();
 
-    void removeParticule(Particule particule);
+    void addParticles(Image particle, Location location, int count, ParticuleUpdater updater, int lifetime);
+    void addParticles(Color particle, Location location, int count, ParticuleUpdater updater, int lifetime);
+
+    void removeParticle(Particle particle);
 
     LevelGenerator getGenerator();
 

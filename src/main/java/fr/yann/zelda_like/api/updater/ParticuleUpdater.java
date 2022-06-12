@@ -1,7 +1,7 @@
 package fr.yann.zelda_like.api.updater;
 
-import fr.yann.zelda_like.api.particule.Particule;
+import fr.yann.zelda_like.api.particule.Particle;
 
-public interface ParticuleUpdater extends Updater<Particule> {
+public interface ParticuleUpdater extends Updater<Particle> {
     ParticuleUpdater clone();
 }

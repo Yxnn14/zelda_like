@@ -26,7 +26,7 @@ public class TeleportUpdater implements Updater<Block> {
             ((TeleportBlock) block).getTeleportLocation() != null
                 && level.moveEntity(entity, ((TeleportBlock) block).getTeleportLocation().clone())
         ) {
-            level.addParticules(
+            level.addParticles(
                 Color.color(0, 0, 1),
                 block.getLocation(),
                 200,
