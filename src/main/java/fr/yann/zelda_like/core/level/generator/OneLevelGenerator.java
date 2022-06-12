@@ -7,6 +7,7 @@ import fr.yann.zelda_like.api.entity.VillagerEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
+import fr.yann.zelda_like.api.objective.Objective;
 import fr.yann.zelda_like.core.block.*;
 import fr.yann.zelda_like.core.dialog.ImplDialog;
 import fr.yann.zelda_like.core.entity.*;
@@ -14,6 +15,7 @@ import fr.yann.zelda_like.core.inventory.KeyItem;
 import fr.yann.zelda_like.core.inventory.PotionHealthItem;
 import fr.yann.zelda_like.core.level.ImplLocation;
 import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
+import fr.yann.zelda_like.core.updater.objective.KeyObjectiveUpdater;
 
 import java.util.Random;
 
@@ -131,6 +133,11 @@ public class OneLevelGenerator implements LevelGenerator {
                         "Tu ne peux ouvrir la porte que de l'autre coté, prends le teleporter,\n il te ramènera la bas!"
                 )
         );
+
+        final Objective objective = level.getObjectiveManager()
+            .create("Récupérer la clef", "Aller parler au villageois");
+        objective.getUpdaterManager().add(new KeyObjectiveUpdater());
+        level.getObjectiveManager().add(objective);
     }
 }
 
