@@ -2,6 +2,7 @@ package fr.yann.zelda_like.core.entity;
 
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.level.Location;
+import fr.yann.zelda_like.core.updater.entity.ShooterMonsterUpdater;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -13,7 +14,8 @@ public class LezardMonsterEntity extends AbstractMonsterEntity {
     private static final Image TEXTURE_EAST = new Image("assets/textures/lezard_east.png");
 
     public LezardMonsterEntity(ZeldaLike zeldaLike, Location location) {
-        super(zeldaLike, "Lezard", location, Color.color(0.153, 0.08, 0.5), 10);
+        super(zeldaLike, "Lezard", location, Color.color(0.153, 0.08, 0.5), 4);
+        this.getUpdaterManager().add(new ShooterMonsterUpdater(20));
     }
 
     @Override

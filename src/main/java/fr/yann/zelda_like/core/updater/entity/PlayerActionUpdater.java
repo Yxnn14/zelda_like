@@ -53,8 +53,7 @@ public class PlayerActionUpdater implements Updater<Entity> {
         }
         final Block block = level.getBlockAt(location);
         if (!block.interact(entity) && block.isTransparent() && targetEntity == null) {
-            BulletEntity bulletEntity = level.spawn(ImplBulletEntity.class, entity.getLocation().add(x, y));
-            bulletEntity.setItem(new ArrowItem());
+            ((PlayerEntity) entity).shoot(new ArrowItem());
         }
 
     }

@@ -65,7 +65,35 @@ public class OneLevelGenerator implements LevelGenerator {
                 ImplLocation.create(7, 13, Location.Orientation.EAST)
         );
         monsterEntity.getUpdaterManager()
+                .add(new EntityPathUpdater(EntityPathUpdater.Direction.VERTICAL, 3, 5));
+
+        monsterEntity = level.spawn(
+                LezardMonsterEntity.class,
+                ImplLocation.create(1, 12, Location.Orientation.SOUTH)
+        );
+        monsterEntity.getUpdaterManager()
+                .add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 5, 5));
+
+        monsterEntity = level.spawn(
+                LezardMonsterEntity.class,
+                ImplLocation.create(4, 5, Location.Orientation.SOUTH)
+        );
+        monsterEntity.getUpdaterManager()
+                .add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 5, 5));
+
+        monsterEntity = level.spawn(
+                LezardMonsterEntity.class,
+                ImplLocation.create(14, 11, Location.Orientation.EAST)
+        );
+        monsterEntity.getUpdaterManager()
                 .add(new EntityPathUpdater(EntityPathUpdater.Direction.VERTICAL, 1, 5));
+
+        monsterEntity = level.spawn(
+                LezardMonsterEntity.class,
+                ImplLocation.create(8, 6, Location.Orientation.SOUTH)
+        );
+        monsterEntity.getUpdaterManager()
+                .add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 5, 5));
     }
 }
 

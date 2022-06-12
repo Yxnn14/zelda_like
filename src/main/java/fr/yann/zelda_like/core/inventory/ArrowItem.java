@@ -13,7 +13,7 @@ public class ArrowItem extends AbstractBulletItem {
     private static final Image TEXTURE_WEST = new Image("assets/textures/arrow_west.png");
 
     public ArrowItem() {
-        super("Arrow", Color.color(0.02, 0.9, 0.9), 7, 4, 1);
+        super("Arrow", Color.color(0.02, 0.9, 0.9), 5, 2, 1);
     }
 
     @Override
