@@ -9,10 +9,12 @@ import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
+import fr.yann.zelda_like.api.objective.ObjectiveManager;
 import fr.yann.zelda_like.api.particule.Particle;
 import fr.yann.zelda_like.api.updater.ParticuleUpdater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import fr.yann.zelda_like.core.block.BarrierBlock;
+import fr.yann.zelda_like.core.objective.ImplObjectiveManager;
 import fr.yann.zelda_like.core.particule.ImplParticle;
 import fr.yann.zelda_like.core.particule.ImplVector;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
@@ -34,6 +36,8 @@ public abstract class AbstractLevel implements Level {
     protected final DialogManager dialogManager;
     protected final UpdaterManager<Level> updaterManager;
 
+    protected final ObjectiveManager objectiveManager;
+
     protected PlayerEntity player;
     protected boolean pause;
     protected boolean hudShow = true;
@@ -52,6 +56,7 @@ public abstract class AbstractLevel implements Level {
         this.generator = generator;
         this.updaterManager = new ImplUpdaterManager<>(zeldaLike, this);
         this.dialogManager = dialogManager;
+        this.objectiveManager = new ImplObjectiveManager(zeldaLike);
     }
 
     @Override
@@ -62,6 +67,11 @@ public abstract class AbstractLevel implements Level {
     @Override
     public int getHeight() {
         return this.blocks[0].length;
+    }
+
+    @Override
+    public ObjectiveManager getObjectiveManager() {
+        return this.objectiveManager;
     }
 
     @Override

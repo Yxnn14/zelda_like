@@ -4,6 +4,7 @@ import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
+import fr.yann.zelda_like.api.objective.ObjectiveManager;
 import fr.yann.zelda_like.api.particule.Particle;
 import fr.yann.zelda_like.api.updater.ParticuleUpdater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
@@ -19,6 +20,8 @@ public interface Level {
     int getHeight();
 
     PlayerEntity getPlayer();
+
+    ObjectiveManager getObjectiveManager();
 
     List<Block> getBlocks();
 
