@@ -49,7 +49,7 @@ public class HUDRender implements Render {
 
         final PlayerEntity player = level.getPlayer();
 
-        if (level.isHUDShow()) {
+        if (level.isHUDShow() && player != null) {
             this.drawPlayerInformation(player);
             this.drawInventory(player.getInventory());
         }
@@ -57,8 +57,9 @@ public class HUDRender implements Render {
         if (level.isDebugShow()) {
             this.drawInformations();
         }
-
-        this.drawInventoryView(player);
+        if (player != null) {
+            this.drawInventoryView(player);
+        }
         this.drawDialog(level.getDialogManager().get());
 
         this.levelRender.getGroup().getChildren().add(3, this.group);
@@ -288,7 +289,7 @@ public class HUDRender implements Render {
         rectangle.setY(0);
         rectangle.setWidth(ZeldaLikeApplication.WIDTH * 0.46);
         rectangle.setHeight((ZeldaLikeApplication.HEIGHT * 0.13));
-        rectangle.setFill(Color.color(0, 0, 0, 0.6));
+        rectangle.setFill(Color.color(0, 0, 0, 0.3));
         informationGroup.getChildren().add(0, rectangle);
 
         final Group contentGroup = new Group();

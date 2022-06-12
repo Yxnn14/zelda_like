@@ -1,19 +1,18 @@
-package fr.yann.zelda_like.core.level;
+package fr.yann.zelda_like.core.level.generator;
 
-import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.block.TeleportBlock;
 import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.core.block.*;
-import fr.yann.zelda_like.core.entity.DemoMonsterEntity;
+import fr.yann.zelda_like.core.entity.LezardMonsterEntity;
 import fr.yann.zelda_like.core.entity.ImplItemEntity;
 import fr.yann.zelda_like.core.entity.ImplPlayerEntity;
 import fr.yann.zelda_like.core.inventory.DemoItem;
 import fr.yann.zelda_like.core.inventory.DemoTwoItem;
 import fr.yann.zelda_like.core.inventory.MoneyItem;
-import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
+import fr.yann.zelda_like.core.level.ImplLocation;
 import fr.yann.zelda_like.core.updater.entity.EntityRoundPathUpdater;
 
 import java.util.Random;
@@ -55,9 +54,9 @@ public class DemoLevelGenerator implements LevelGenerator {
         itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(5, 7));
         itemEntity.setItem(new DemoTwoItem());
 
-        DemoMonsterEntity demoMonsterEntity = level.spawn(DemoMonsterEntity.class, ImplLocation.create(10, 3, Location.Orientation.SOUTH));
-        // demoMonsterEntity.getUpdaterManager().add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 3, 4));
-        demoMonsterEntity.getUpdaterManager().add(new EntityRoundPathUpdater(1, 5));
+        LezardMonsterEntity lezardMonsterEntity = level.spawn(LezardMonsterEntity.class, ImplLocation.create(10, 3, Location.Orientation.SOUTH));
+        // lezardMonsterEntity.getUpdaterManager().add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 3, 4));
+        lezardMonsterEntity.getUpdaterManager().add(new EntityRoundPathUpdater(1, 5));
 
         itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(14, 8));
         itemEntity.setItem(new MoneyItem());

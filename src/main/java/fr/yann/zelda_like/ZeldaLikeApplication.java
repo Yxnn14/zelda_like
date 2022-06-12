@@ -7,6 +7,7 @@ import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.core.ImplZeldaLike;
 import fr.yann.zelda_like.core.controller.ImplController;
 import fr.yann.zelda_like.core.level.DemoLevel;
+import fr.yann.zelda_like.core.level.OneLevel;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -53,7 +54,7 @@ public class ZeldaLikeApplication extends Application {
 
         this.registerKeyBind(zeldaLike, scene);
 
-        zeldaLike.getLevelManager().load(DemoLevel.class);
+        zeldaLike.getLevelManager().load(OneLevel.class);
 
         stage.setTitle("Zelda like");
         stage.setResizable(false);
