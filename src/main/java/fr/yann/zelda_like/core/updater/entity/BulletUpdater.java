@@ -51,15 +51,16 @@ public class BulletUpdater extends AbstractUpdater<Entity> {
         if (remove) {
             if (target != null) {
                 level.damageEntity(entity, target);
+                level.addParticles(
+                        Color.color(1d, 0d, 1d),
+                        entity.getLocation().add(x, y),
+                        10,
+                        new DefaultParticuleUpdater(),
+                        10
+                );
             }
             level.removeEntity(entity);
-            level.addParticles(
-                Color.color(1d, 0d, 1d),
-                entity.getLocation().add(x, y),
-                10,
-                new DefaultParticuleUpdater(),
-                10
-            );
+
             return;
         }
 
