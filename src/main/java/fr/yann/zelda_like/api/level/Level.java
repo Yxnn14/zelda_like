@@ -34,6 +34,8 @@ public interface Level {
     <T extends Block> T setBlock(Class<T> blockClass, Location location);
 
     List<Entity> getEntities();
+    List<Entity> getEntities(Class<? extends Entity> entityClass);
+
 
     Entity getEntityAt(int x, int y);
 

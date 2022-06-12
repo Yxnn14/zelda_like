@@ -16,6 +16,7 @@ import fr.yann.zelda_like.core.inventory.PotionHealthItem;
 import fr.yann.zelda_like.core.level.ImplLocation;
 import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
 import fr.yann.zelda_like.core.updater.objective.KeyObjectiveUpdater;
+import fr.yann.zelda_like.core.updater.objective.KillMonsterObjectiveUpdater;
 
 import java.util.Random;
 
@@ -134,9 +135,14 @@ public class OneLevelGenerator implements LevelGenerator {
                 )
         );
 
-        final Objective objective = level.getObjectiveManager()
+        Objective objective = level.getObjectiveManager()
             .create("Récupérer la clef", "Aller parler au villageois");
         objective.getUpdaterManager().add(new KeyObjectiveUpdater());
+        level.getObjectiveManager().add(objective);
+
+        objective = level.getObjectiveManager()
+                .create("Tuer tous les monstres", "Attaquer avec SPACE");
+        objective.getUpdaterManager().add(new KillMonsterObjectiveUpdater());
         level.getObjectiveManager().add(objective);
     }
 }

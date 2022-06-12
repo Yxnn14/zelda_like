@@ -103,6 +103,17 @@ public abstract class AbstractLevel implements Level {
     }
 
     @Override
+    public List<Entity> getEntities(Class<? extends Entity> entityClass) {
+        final List<Entity> entities = new ArrayList<>();
+        for (final Entity entity : this.getEntities()) {
+            if (entityClass.isAssignableFrom(entity.getClass())) {
+                entities.add(entity);
+            }
+        }
+        return entities;
+    }
+
+    @Override
     public Entity getEntityAt(int x, int y) {
         return this.getObjectAt(this.entities, x, y);
     }
