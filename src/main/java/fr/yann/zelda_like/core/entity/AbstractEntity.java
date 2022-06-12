@@ -104,4 +104,8 @@ public abstract class AbstractEntity implements Entity {
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
+
+    @Override
+    public void killedBy(Entity entity) {
+    }
 }

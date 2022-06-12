@@ -36,4 +36,6 @@ public interface Entity {
     boolean isVisible();
 
     void setVisible(boolean visible);
+
+    void killedBy(Entity entity);
 }

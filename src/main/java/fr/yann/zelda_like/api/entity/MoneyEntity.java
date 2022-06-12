@@ -1,6 +1,6 @@
 package fr.yann.zelda_like.api.entity;
 
-public interface MoneyEntity extends Entity {
+public interface MoneyEntity extends InventoryEntity {
     int getMoney();
 
     void addMoney(int money);

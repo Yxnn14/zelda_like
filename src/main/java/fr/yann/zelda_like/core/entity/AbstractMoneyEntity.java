@@ -5,7 +5,7 @@ import fr.yann.zelda_like.api.entity.MoneyEntity;
 import fr.yann.zelda_like.api.level.Location;
 import javafx.scene.paint.Color;
 
-public class AbstractMoneyEntity extends AbstractEntity implements MoneyEntity {
+public abstract class AbstractMoneyEntity extends AbstractEntity implements MoneyEntity {
 
     protected int money;
 

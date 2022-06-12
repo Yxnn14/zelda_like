@@ -26,5 +26,6 @@ public abstract class AbstractMonsterEntity extends AbstractEntity implements Mo
         BulletEntity bulletEntity = this.zeldaLike.getLevelManager().get()
                 .spawn(ImplBulletEntity.class, this.getLocation().add(x, y));
         bulletEntity.setItem(bulletItem);
+        bulletEntity.setShooter(this);
     }
 }

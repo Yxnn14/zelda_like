@@ -30,4 +30,6 @@ public interface Inventory {
     Image getBackgroundTexture();
 
     Color getSlotColor();
+
+    boolean contains(Class<? extends Item> itemClass);
 }

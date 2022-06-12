@@ -108,4 +108,14 @@ public abstract class AbstractInventory implements Inventory {
     public Image getBackgroundTexture() {
         return null;
     }
+
+    @Override
+    public boolean contains(Class<? extends Item> itemClass) {
+        for (final Item item : this.items) {
+            if (item != null && item.getClass().equals(itemClass)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

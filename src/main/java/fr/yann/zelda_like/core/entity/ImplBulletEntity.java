@@ -9,6 +9,8 @@ import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.core.updater.entity.BulletUpdater;
 
 public class ImplBulletEntity extends ImplItemEntity implements BulletEntity {
+
+    private Entity shooter;
     public ImplBulletEntity(ZeldaLike zeldaLike, Location location) {
         super(zeldaLike, location);
     }
@@ -37,5 +39,15 @@ public class ImplBulletEntity extends ImplItemEntity implements BulletEntity {
     @Override
     public int getDamage() {
         return this.item instanceof BulletItem ? ((BulletItem) this.item).getDamage() : super.getDamage();
+    }
+
+    @Override
+    public Entity getShooter() {
+        return this.shooter;
+    }
+
+    @Override
+    public void setShooter(Entity entity) {
+        this.shooter = entity;
     }
 }

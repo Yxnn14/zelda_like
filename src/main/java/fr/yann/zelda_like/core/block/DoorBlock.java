@@ -1,7 +1,10 @@
 package fr.yann.zelda_like.core.block;
 
 import fr.yann.zelda_like.api.ZeldaLike;
+import fr.yann.zelda_like.api.entity.Entity;
+import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.level.Location;
+import fr.yann.zelda_like.core.inventory.KeyItem;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -21,5 +24,19 @@ public class DoorBlock extends AbstractDoorBlock {
             case SOUTH, NORTH -> this.isOpen() ? DoorBlock.TEXTURE_OPEN : DoorBlock.TEXTURE_LOCK;
             case EAST, WEST -> this.isOpen() ? DoorBlock.TEXTURE_OPEN_TURNED : DoorBlock.TEXTURE_LOCK_TURNED;
         };
+    }
+
+    @Override
+    public boolean interact(Entity entity) {
+        if (!(entity instanceof PlayerEntity)) {
+            return false;
+        }
+        if (!entity.getLocation().getOrientation().equals(this.getLocation().getOrientation())) {
+            return false;
+        }
+        if (!((PlayerEntity) entity).getInventory().contains(KeyItem.class)) {
+            return false;
+        }
+        return super.interact(entity);
     }
 }

@@ -1,6 +1,8 @@
 package fr.yann.zelda_like.core.entity;
 
 import fr.yann.zelda_like.api.ZeldaLike;
+import fr.yann.zelda_like.api.entity.Entity;
+import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.core.updater.entity.ShooterMonsterUpdater;
 import javafx.scene.image.Image;
@@ -26,5 +28,12 @@ public class LezardMonsterEntity extends AbstractMonsterEntity {
             case WEST -> LezardMonsterEntity.TEXTURE_WEST;
             case EAST -> LezardMonsterEntity.TEXTURE_EAST;
         };
+    }
+
+    @Override
+    public void killedBy(Entity entity) {
+        if (entity instanceof PlayerEntity player) {
+            player.addMoney(4);
+        }
     }
 }

@@ -92,5 +92,6 @@ public class ImplPlayerEntity extends AbstractMoneyEntity implements PlayerEntit
         BulletEntity bulletEntity = this.zeldaLike.getLevelManager().get()
                 .spawn(ImplBulletEntity.class, this.getLocation().add(x, y));
         bulletEntity.setItem(bulletItem);
+        bulletEntity.setShooter(this);
     }
 }

@@ -3,9 +3,11 @@ package fr.yann.zelda_like.core.level;
 import fr.yann.zelda_like.ZeldaLikeApplication;
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.dialog.DialogManager;
+import fr.yann.zelda_like.api.entity.BulletEntity;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.block.Block;
+import fr.yann.zelda_like.api.inventory.BulletItem;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
@@ -144,6 +146,15 @@ public abstract class AbstractLevel implements Level {
     @Override
     public void damageEntity(Entity damager, Entity receiver) {
         this.damageEntity(receiver, damager.getDamage());
+        if (receiver.isDeath()) {
+            if (damager instanceof BulletEntity bulletEntity) {
+                if (bulletEntity.getShooter() != null) {
+                    receiver.killedBy(bulletEntity.getShooter());
+                    return;
+                }
+            }
+            receiver.killedBy(damager);
+        }
     }
 
     @Override
