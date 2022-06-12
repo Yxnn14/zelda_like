@@ -5,6 +5,7 @@ import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.level.LevelGenerator;
 import fr.yann.zelda_like.api.level.Location;
+import fr.yann.zelda_like.api.objective.Objective;
 import fr.yann.zelda_like.core.block.*;
 import fr.yann.zelda_like.core.entity.LezardMonsterEntity;
 import fr.yann.zelda_like.core.entity.ImplItemEntity;
@@ -63,5 +64,14 @@ public class DemoLevelGenerator implements LevelGenerator {
 
         itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(2, 6));
         itemEntity.setItem(new MoneyItem());
+
+        Objective objective = level.getObjectiveManager()
+            .create("Tuer 25 Monstres", "Monstres tués: 0/5");
+        objective.setComplete(true);
+
+        level.getObjectiveManager()
+            .add(level.getObjectiveManager().create("Tuer 25 Monstres", "Monstres tués: 0/5"))
+            .add(objective)
+            .add(level.getObjectiveManager().create("Tuer 25 Monstres", "Monstres tués: 0/5"));
     }
 }

@@ -8,6 +8,8 @@ import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.inventory.Inventory;
 import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Level;
+import fr.yann.zelda_like.api.objective.Objective;
+import fr.yann.zelda_like.api.objective.ObjectiveManager;
 import fr.yann.zelda_like.api.render.LevelRender;
 import fr.yann.zelda_like.api.render.Render;
 import fr.yann.zelda_like.core.inventory.MoneyItem;
@@ -18,7 +20,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.util.List;
 
 public class HUDRender implements Render {
 
@@ -52,6 +57,7 @@ public class HUDRender implements Render {
         if (level.isHUDShow() && player != null) {
             this.drawPlayerInformation(player);
             this.drawInventory(player.getInventory());
+            this.drawObjectives(level.getObjectiveManager().getObjectives());
         }
 
         if (level.isDebugShow()) {
@@ -355,6 +361,52 @@ public class HUDRender implements Render {
         text.setFont(font);
         group.getChildren().add(text);
 
+        this.group.getChildren().add(group);
+    }
+
+    private void drawObjectives(List<Objective> objectives) {
+        if (objectives.isEmpty()) {
+            return;
+        }
+
+        Group group = new Group();
+
+        final double height = ZeldaLikeApplication.HEIGHT * 0.1;
+        final Rectangle rectangle = new Rectangle();
+        rectangle.setX(0);
+        rectangle.setY(ZeldaLikeApplication.HEIGHT * 0.2);
+        rectangle.setWidth(ZeldaLikeApplication.WIDTH * 0.2);
+        rectangle.setHeight(height * objectives.size());
+        rectangle.setFill(Color.color(0, 0, 0, 0.7));
+        group.getChildren().add(0, rectangle);
+
+        final Group objectiveGroup = new Group();
+        final Color titleColor = Color.color(1, 1, 1);
+        final Color titleSuccessColor = Color.color(0, 0.8, 0);
+        final Font fontTile = Font.font(null, FontWeight.BOLD, ZeldaLikeApplication.HEIGHT * 0.03);
+        final Font fontDescription = Font.font(ZeldaLikeApplication.HEIGHT * 0.02);
+        final Color descriptionColor = Color.color(.95, .95, .95);
+        int x = 0;
+        for (Objective objective : objectives) {
+            final Text title = new Text();
+            title.setText(objective.getTitle());
+            title.setFont(fontTile);
+            title.setX(20);
+            title.setY(rectangle.getY() + (height * x) + (height * 0.5));
+            title.setFill(objective.isComplete() ? titleSuccessColor : titleColor);
+
+            final Text description = new Text();
+            description.setText(objective.getDescription());
+            description.setFont(fontDescription);
+            description.setX(20);
+            description.setY(rectangle.getY() + (height * x) + (height * 0.8));
+            description.setFill(descriptionColor);
+
+            x++;
+            objectiveGroup.getChildren().addAll(title, description);
+        }
+
+        group.getChildren().add(1, objectiveGroup);
         this.group.getChildren().add(group);
     }
 }

@@ -54,7 +54,7 @@ public class ZeldaLikeApplication extends Application {
 
         this.registerKeyBind(zeldaLike, scene);
 
-        zeldaLike.getLevelManager().load(OneLevel.class);
+        zeldaLike.getLevelManager().load(DemoLevel.class);
 
         stage.setTitle("Zelda like");
         stage.setResizable(false);

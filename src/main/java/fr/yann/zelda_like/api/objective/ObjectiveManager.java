@@ -6,7 +6,7 @@ public interface ObjectiveManager
 {
     List<Objective> getObjectives();
 
-    void add(Objective objective);
+    ObjectiveManager add(Objective objective);
 
     void remove(Objective objective);
 

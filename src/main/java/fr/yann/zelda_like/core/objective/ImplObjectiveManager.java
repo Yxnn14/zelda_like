@@ -21,8 +21,9 @@ public class ImplObjectiveManager implements ObjectiveManager {
     }
 
     @Override
-    public void add(Objective objective) {
+    public ObjectiveManager add(Objective objective) {
         this.objectives.add(objective);
+        return this;
     }
 
     @Override
