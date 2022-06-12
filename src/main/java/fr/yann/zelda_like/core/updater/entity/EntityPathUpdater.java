@@ -3,6 +3,7 @@ package fr.yann.zelda_like.core.updater.entity;
 import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.entity.Entity;
 import fr.yann.zelda_like.api.level.Level;
+import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.Updater;
 import fr.yann.zelda_like.core.updater.AbstractUpdater;
 
@@ -31,19 +32,20 @@ public class EntityPathUpdater extends AbstractUpdater<Entity> {
             y = this.switchDirection ? 1 : -1;
         }
         int newPathCounter = this.pathCounter + x + y;
-        if (Math.abs(newPathCounter) >= range) {
+        if (Math.abs(newPathCounter) > range) {
             this.switchDirection = !this.switchDirection;
             return;
         }
-        if (!level.getBlockAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y).isTransparent()) {
+        final Location destination = entity.getLocation().add(x, y);
+        if (!level.getBlockAt(destination).isTransparent()) {
             this.switchDirection = !this.switchDirection;
             return;
         }
-        if (level.getEntityAt(entity.getLocation().getX() + x, entity.getLocation().getY() + y) != null) {
+        if (level.getEntityAt(destination) != null) {
             this.switchDirection = !this.switchDirection;
             return;
         }
-        level.moveEntity(entity, entity.getLocation().add(x, y));
+        level.moveEntity(entity, destination);
         this.pathCounter = newPathCounter;
     }
 
