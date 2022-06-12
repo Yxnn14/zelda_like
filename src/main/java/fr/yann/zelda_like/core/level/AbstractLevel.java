@@ -107,6 +107,13 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public <T extends Entity> T spawn(Class<T> entityClazz, Location location) {
+        if (this.getEntityAt(location) != null) {
+            return (T) this.setObject(
+                this.entities,
+                entityClazz,
+                location.remove(location.getX() + 1, location.getY() + 1)
+            );
+        }
         final T entity = (T) this.setObject(this.entities, entityClazz, location);
         if (this.player == null && entity instanceof PlayerEntity player) {
             this.player = player;
