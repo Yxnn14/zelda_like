@@ -47,7 +47,9 @@ public class EntityRender implements Render {
 
         level.getEntities()
             .forEach(entity -> {
-
+                if (!entity.isVisible()) {
+                    return;
+                }
                 final Image image = entity.getTexture();
                 if (image != null) {
                     final ImageView imageView = new ImageView(image);

@@ -17,4 +17,14 @@ public class AbstractMoneyEntity extends AbstractEntity implements MoneyEntity {
     public int getMoney() {
         return this.money;
     }
+
+    @Override
+    public void addMoney(int money) {
+        this.money += money;
+    }
+
+    @Override
+    public void removeMoney(int money) {
+        this.money -= money;
+    }
 }

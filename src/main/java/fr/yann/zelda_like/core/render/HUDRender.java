@@ -10,6 +10,7 @@ import fr.yann.zelda_like.api.inventory.Item;
 import fr.yann.zelda_like.api.level.Level;
 import fr.yann.zelda_like.api.render.LevelRender;
 import fr.yann.zelda_like.api.render.Render;
+import fr.yann.zelda_like.core.inventory.MoneyItem;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -49,7 +50,7 @@ public class HUDRender implements Render {
         final PlayerEntity player = level.getPlayer();
 
         if (level.isHUDShow()) {
-            this.drawHealth(player);
+            this.drawPlayerInformation(player);
             this.drawInventory(player.getInventory());
         }
 
@@ -279,9 +280,18 @@ public class HUDRender implements Render {
         }
     }
 
-    private void drawHealth(PlayerEntity player) {
-        final Group group = new Group();
+    private void drawPlayerInformation(PlayerEntity player) {
+        final Group informationGroup = new Group();
 
+        final Rectangle rectangle = new Rectangle();
+        rectangle.setX(0);
+        rectangle.setY(0);
+        rectangle.setWidth(ZeldaLikeApplication.WIDTH * 0.46);
+        rectangle.setHeight((ZeldaLikeApplication.HEIGHT * 0.13));
+        rectangle.setFill(Color.color(0, 0, 0, 0.6));
+        informationGroup.getChildren().add(0, rectangle);
+
+        final Group contentGroup = new Group();
         final double size = ZeldaLikeApplication.WIDTH * 0.02;
         final double offset = size / 2.0;
 
@@ -291,10 +301,26 @@ public class HUDRender implements Render {
             imageView.setFitHeight(size);
             imageView.setX(offset + ((offset * 0.2) * i) + (size * i));
             imageView.setY(offset);
-            group.getChildren().add(imageView);
+            contentGroup.getChildren().add(imageView);
         }
 
-        this.group.getChildren().add(group);
+        final ImageView moneyView = new ImageView(MoneyItem.TEXTURE);
+        moneyView.setX(offset);
+        moneyView.setY((offset * 2) + size);
+        moneyView.setFitWidth(size);
+        moneyView.setFitHeight(size);
+        contentGroup.getChildren().add(moneyView);
+
+        final Text moneyText = new Text();
+        moneyText.setText(String.valueOf(player.getMoney()));
+        moneyText.setX(offset * 2 + size);
+        moneyText.setY(moneyView.getY() + (size * 0.85));
+        moneyText.setFill(Color.color(1, 1, 1));
+        moneyText.setFont(Font.font(ZeldaLikeApplication.HEIGHT * 0.03));
+        contentGroup.getChildren().add(moneyText);
+
+        informationGroup.getChildren().add(1, contentGroup);
+        this.group.getChildren().add(informationGroup);
     }
 
     private void drawInformations() {

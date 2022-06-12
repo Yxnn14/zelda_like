@@ -1,6 +1,7 @@
 package fr.yann.zelda_like.core.updater;
 
 import fr.yann.zelda_like.api.ZeldaLike;
+import fr.yann.zelda_like.api.updater.ResetUpdater;
 import fr.yann.zelda_like.api.updater.Updater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 
@@ -19,13 +20,22 @@ public class ImplUpdaterManager<T> implements UpdaterManager<T> {
 
     @Override
     public UpdaterManager<T> add(Updater<T> updater) {
+        if (updater instanceof ResetUpdater<T>) {
+            for (Updater<T> currentUpdater : this.updaters) {
+                if (currentUpdater.getClass().equals(updater.getClass())) {
+                    ((ResetUpdater<T>) currentUpdater).reset();;
+                    return this;
+                }
+            }
+        }
         this.updaters.add(updater);
         return this;
     }
 
     @Override
     public void update() {
-        this.updaters.forEach(updater -> updater.update(this.zeldaLike, this.type));
+        new ArrayList<>(this.updaters)
+            .forEach(updater -> updater.update(this.zeldaLike, this.type));
     }
 
     @Override
@@ -34,6 +44,7 @@ public class ImplUpdaterManager<T> implements UpdaterManager<T> {
         for (Updater<T> updater : list) {
             if (updater.getClass().equals(updaterClass)) {
                 this.updaters.remove(updater);
+                return this;
             }
         }
         return this;

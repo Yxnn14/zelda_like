@@ -30,4 +30,10 @@ public interface Entity {
     boolean interact(Entity entity);
 
     boolean isInvulnerable();
+
+    boolean isDeath();
+
+    boolean isVisible();
+
+    void setVisible(boolean visible);
 }

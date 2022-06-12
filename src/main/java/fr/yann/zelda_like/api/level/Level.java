@@ -46,6 +46,8 @@ public interface Level {
 
     void damageEntity(Entity damager, Entity receiver);
 
+    void damageEntity(Entity entity, int damage);
+
     List<Particle> getParticles();
 
     void addParticles(Image particle, Location location, int count, ParticuleUpdater updater, int lifetime);

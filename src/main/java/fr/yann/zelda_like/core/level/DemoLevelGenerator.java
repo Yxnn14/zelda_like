@@ -12,7 +12,9 @@ import fr.yann.zelda_like.core.entity.ImplItemEntity;
 import fr.yann.zelda_like.core.entity.ImplPlayerEntity;
 import fr.yann.zelda_like.core.inventory.DemoItem;
 import fr.yann.zelda_like.core.inventory.DemoTwoItem;
+import fr.yann.zelda_like.core.inventory.MoneyItem;
 import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
+import fr.yann.zelda_like.core.updater.entity.EntityRoundPathUpdater;
 
 import java.util.Random;
 
@@ -35,8 +37,14 @@ public class DemoLevelGenerator implements LevelGenerator {
             }
         }
         level.setBlock(BombBlock.class, ImplLocation.create(8, 8));
+
+        for (int y = 2; y < level.getHeight(); y++) {
+            level.setBlock(GroundBlock.class, ImplLocation.create(3, y));
+        }
+
         TeleportBlock teleporterBlock = level.setBlock(ImplTeleporterBlock.class, ImplLocation.create(3, 3));
         teleporterBlock.setTeleportLocation(ImplLocation.create(3, 8));
+
         level.setBlock(DoorBlock.class, ImplLocation.create(9, 7));
 
 
@@ -48,6 +56,13 @@ public class DemoLevelGenerator implements LevelGenerator {
         itemEntity.setItem(new DemoTwoItem());
 
         DemoMonsterEntity demoMonsterEntity = level.spawn(DemoMonsterEntity.class, ImplLocation.create(10, 3, Location.Orientation.SOUTH));
-        demoMonsterEntity.getUpdaterManager().add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 3, 4));
+        // demoMonsterEntity.getUpdaterManager().add(new EntityPathUpdater(EntityPathUpdater.Direction.HORIZONTAL, 3, 4));
+        demoMonsterEntity.getUpdaterManager().add(new EntityRoundPathUpdater(1, 5));
+
+        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(14, 8));
+        itemEntity.setItem(new MoneyItem());
+
+        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(2, 6));
+        itemEntity.setItem(new MoneyItem());
     }
 }

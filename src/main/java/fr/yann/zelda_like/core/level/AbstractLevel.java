@@ -16,6 +16,7 @@ import fr.yann.zelda_like.core.block.BarrierBlock;
 import fr.yann.zelda_like.core.particule.ImplParticle;
 import fr.yann.zelda_like.core.particule.ImplVector;
 import fr.yann.zelda_like.core.updater.ImplUpdaterManager;
+import fr.yann.zelda_like.core.updater.animation.EntityDamageAnimationUpdater;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -125,9 +126,18 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public void damageEntity(Entity damager, Entity receiver) {
-        receiver.removeHealth(damager.getDamage());
-        if (receiver.getHealth() <= 0) {
-            this.removeEntity(receiver);
+        this.damageEntity(receiver, damager.getDamage());
+    }
+
+    @Override
+    public void damageEntity(Entity entity, int damage) {
+        if (!entity.isInvulnerable()) {
+            entity.removeHealth(damage);
+            if (entity.isDeath()) {
+                this.removeEntity(entity);
+                return;
+            }
+            entity.getUpdaterManager().add(new EntityDamageAnimationUpdater());
         }
     }
 

@@ -18,6 +18,7 @@ public abstract class AbstractEntity implements Entity {
 
     protected int health;
     protected boolean invulnerable;
+    protected boolean visible = true;
 
 
     protected AbstractEntity(ZeldaLike zeldaLike, String name, Location location, Color color, int health) {
@@ -61,12 +62,12 @@ public abstract class AbstractEntity implements Entity {
 
     @Override
     public void addHealth(int health) {
-        this.health += health;
+        this.health = Math.max(this.invulnerable ? 1 : 0, this.health + health);
     }
 
     @Override
     public void removeHealth(int health) {
-        this.health -= health;
+        this.health = Math.max(this.invulnerable ? 1 : 0, this.health - health);
     }
 
     @Override
@@ -87,5 +88,20 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public boolean isInvulnerable() {
         return this.invulnerable;
+    }
+
+    @Override
+    public boolean isDeath() {
+        return this.health <= 0;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.visible;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

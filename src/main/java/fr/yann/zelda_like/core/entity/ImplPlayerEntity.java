@@ -33,7 +33,7 @@ public class ImplPlayerEntity extends AbstractMoneyEntity implements PlayerEntit
             .add(new InventoryOpeningUpdater())
             .add(new PlayerActionUpdater())
             .add(new PlayerItemUseUpdater());
-        this.inventory = new PlayerInventory();
+        this.inventory = new PlayerInventory(this);
     }
 
     @Override
