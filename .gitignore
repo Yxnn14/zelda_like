@@ -39,6 +39,7 @@ build/
 
 ### JetBrains ###
 .idea/
+out/
 
 ### Maven ###
 .mvn/
