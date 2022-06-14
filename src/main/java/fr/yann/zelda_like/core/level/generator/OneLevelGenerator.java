@@ -141,6 +141,15 @@ public class OneLevelGenerator implements LevelGenerator {
                 )
         );
 
+        MerchantEntity askPNJ = level.spawn(AskPNJ.class, ImplLocation.create(level.getWidth() - 2, 8));
+        askPNJ.setSoldItem(new PotionHealthItem());
+        askPNJ.setStock(1);
+
+
+        MerchantEntity givePNJ = level.spawn(GivePNJ.class, ImplLocation.create(level.getWidth() - 2, 10));
+        givePNJ.setSoldItem(new KeyItem());
+        givePNJ.setStock(1);
+
         Objective objective = level.getObjectiveManager()
             .create("Récupérer la clef", "Aller parler au villageois");
         objective.getUpdaterManager().add(new KeyObjectiveUpdater());

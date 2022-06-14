@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 public abstract class AbstractMerchantEntity extends AbstractVillagerEntity implements MerchantEntity {
     private int price;
     private Item item;
-    private int stock;
+    protected int stock;
 
     protected AbstractMerchantEntity(ZeldaLike zeldaLike, String name, Location location, Color color, int health) {
         super(zeldaLike, name, location, color, health);
