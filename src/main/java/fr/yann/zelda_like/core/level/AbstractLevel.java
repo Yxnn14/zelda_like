@@ -5,6 +5,7 @@ import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.dialog.DialogManager;
 import fr.yann.zelda_like.api.entity.BulletEntity;
 import fr.yann.zelda_like.api.entity.Entity;
+import fr.yann.zelda_like.api.entity.InventoryEntity;
 import fr.yann.zelda_like.api.entity.PlayerEntity;
 import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.inventory.BulletItem;
@@ -16,6 +17,7 @@ import fr.yann.zelda_like.api.particule.Particle;
 import fr.yann.zelda_like.api.updater.ParticuleUpdater;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import fr.yann.zelda_like.core.block.BarrierBlock;
+import fr.yann.zelda_like.core.inventory.CapeItem;
 import fr.yann.zelda_like.core.objective.ImplObjectiveManager;
 import fr.yann.zelda_like.core.particule.ImplParticle;
 import fr.yann.zelda_like.core.particule.ImplVector;
@@ -143,7 +145,9 @@ public abstract class AbstractLevel implements Level {
     @Override
     public boolean moveEntity(Entity entity, Location location) {
         final Entity target = this.getEntityAt(location);
-        if (target == null && this.getBlockAt(location).isTransparent()) {
+        boolean hasCape = entity instanceof InventoryEntity inventoryEntity
+            && inventoryEntity.getInventory().contains(CapeItem.class);
+        if (target == null && (hasCape || this.getBlockAt(location).isTransparent())) {
             final Entity lastEntity = this.getEntityAt(entity.getLocation());;
             if (lastEntity != null && lastEntity.equals(entity)) {
                 this.entities[entity.getLocation().getX()][entity.getLocation().getY()] = null;
@@ -157,7 +161,12 @@ public abstract class AbstractLevel implements Level {
 
     @Override
     public void damageEntity(Entity damager, Entity receiver) {
-        this.damageEntity(receiver, damager.getDamage());
+        this.damageEntity(damager, receiver, damager.getDamage());
+    }
+
+    @Override
+    public void damageEntity(Entity damager, Entity receiver, int damage) {
+        this.damageEntity(receiver, damage);
         if (receiver.isDeath()) {
             if (damager instanceof BulletEntity bulletEntity) {
                 if (bulletEntity.getShooter() != null) {

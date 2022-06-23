@@ -31,6 +31,11 @@ public abstract class AbstractEntity implements Entity {
     }
 
     @Override
+    public ZeldaLike getZeldaLike() {
+        return this.zeldaLike;
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }
@@ -88,6 +93,11 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public boolean isInvulnerable() {
         return this.invulnerable;
+    }
+
+    @Override
+    public void setInvulnerable(boolean invulnerable) {
+        this.invulnerable = invulnerable;
     }
 
     @Override

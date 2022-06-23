@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class GroundBlock extends AbstractBlock {
 
-    private static final Image TEXTURE = new Image("assets/textures/ground.png");
+    public static final Image TEXTURE = new Image("assets/textures/ground.png");
 
     public GroundBlock(ZeldaLike zeldaLike, Location location) {
         super(zeldaLike, location, Color.color(0.5, 0, 0.5));

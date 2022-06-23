@@ -2,6 +2,7 @@ package fr.yann.zelda_like.core.level.generator;
 
 import fr.yann.zelda_like.api.block.Block;
 import fr.yann.zelda_like.api.block.TeleportBlock;
+import fr.yann.zelda_like.api.entity.ItemEntity;
 import fr.yann.zelda_like.api.entity.MerchantEntity;
 import fr.yann.zelda_like.api.entity.MonsterEntity;
 import fr.yann.zelda_like.api.entity.VillagerEntity;
@@ -13,8 +14,7 @@ import fr.yann.zelda_like.api.objective.ObjectiveManager;
 import fr.yann.zelda_like.core.block.*;
 import fr.yann.zelda_like.core.dialog.ImplDialog;
 import fr.yann.zelda_like.core.entity.*;
-import fr.yann.zelda_like.core.inventory.KeyItem;
-import fr.yann.zelda_like.core.inventory.PotionHealthItem;
+import fr.yann.zelda_like.core.inventory.*;
 import fr.yann.zelda_like.core.level.ImplLocation;
 import fr.yann.zelda_like.core.updater.block.LevelOneVictoryUpdater;
 import fr.yann.zelda_like.core.updater.entity.EntityPathUpdater;
@@ -73,6 +73,18 @@ public class OneLevelGenerator implements LevelGenerator {
             }
         }
         level.spawn(ImplPlayerEntity.class, ImplLocation.create(23, 13, Location.Orientation.SOUTH));
+
+        ItemEntity itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(23, 15));
+        itemEntity.setItem(new CapeItem());
+
+        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(25, 15));
+        itemEntity.setItem(new AngleKillerItem());
+
+        itemEntity = level.spawn(ImplItemEntity.class, ImplLocation.create(21, 15));
+        itemEntity.setItem(new KillEntityItem());
+
+        level.spawn(AngleEntity.class, ImplLocation.create(27, 15));
+
         MonsterEntity monsterEntity = level.spawn(
                 LezardMonsterEntity.class,
                 ImplLocation.create(7, 13, Location.Orientation.EAST)
@@ -111,6 +123,13 @@ public class OneLevelGenerator implements LevelGenerator {
         villagerEntity.addDialog(
                 ImplDialog.create("Bonjour jeune aventurier ! Va parler au villageois et ramène la clef")
         );
+
+        villagerEntity = level.spawn(ClearerVillagerEntity.class, ImplLocation.create(29, 15));
+        villagerEntity.addDialog(ImplDialog.create("Oups, je t'ai fait disperser tous tes items."));
+
+        villagerEntity = level.spawn(KeeperVillagerEntity.class, ImplLocation.create(29, 13));
+        villagerEntity.addDialog(ImplDialog.create("Très bien, je te garde ton item"));
+
         MerchantEntity merchantEntity = level.spawn(
                 MerchantVillagerEntity.class,
                 ImplLocation.create(1, 3, Location.Orientation.EAST)

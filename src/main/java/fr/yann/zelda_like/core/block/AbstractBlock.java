@@ -13,6 +13,7 @@ public abstract class AbstractBlock implements Block {
 
     protected final Location location;
     protected final Color color;
+    protected final ZeldaLike zeldaLike;
 
     protected final boolean transparent;
 
@@ -27,6 +28,7 @@ public abstract class AbstractBlock implements Block {
         this.color = color;
         this.updaterManager = new ImplUpdaterManager<>(zeldaLike, this);
         this.transparent = transparent;
+        this.zeldaLike = zeldaLike;
     }
 
     @Override

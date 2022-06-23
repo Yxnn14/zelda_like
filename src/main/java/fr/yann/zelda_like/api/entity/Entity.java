@@ -1,11 +1,14 @@
 package fr.yann.zelda_like.api.entity;
 
+import fr.yann.zelda_like.api.ZeldaLike;
 import fr.yann.zelda_like.api.level.Location;
 import fr.yann.zelda_like.api.updater.UpdaterManager;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public interface Entity {
+
+    ZeldaLike getZeldaLike();
 
     String getName();
 
@@ -30,6 +33,8 @@ public interface Entity {
     boolean interact(Entity entity);
 
     boolean isInvulnerable();
+
+    void setInvulnerable(boolean invulnerable);
 
     boolean isDeath();
 

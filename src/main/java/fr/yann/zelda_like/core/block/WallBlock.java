@@ -14,6 +14,9 @@ public class WallBlock extends AbstractBlock {
 
     @Override
     public Image getTexture() {
+        if (this.zeldaLike.getLevelManager().get().getEntityAt(this.getLocation()) != null) {
+            return GroundBlock.TEXTURE;
+        }
         return WallBlock.TEXTURE;
     }
 }

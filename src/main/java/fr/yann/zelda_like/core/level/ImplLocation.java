@@ -73,6 +73,14 @@ public class ImplLocation implements Location {
     }
 
     @Override
+    public double getDistance(Location location) {
+        // TODO: x = sqrt(x² + y²)
+        int x = Math.abs(this.x - location.getX());
+        int y = Math.abs(this.y - location.getY());
+        return Math.sqrt(x * x + y * y);
+    }
+
+    @Override
     public Location clone() {
         return new ImplLocation(this.x, this.y, this.orientation);
     }

@@ -51,6 +51,8 @@ public interface Level {
 
     void damageEntity(Entity damager, Entity receiver);
 
+    void damageEntity(Entity damager, Entity receiver, int damage);
+
     void damageEntity(Entity entity, int damage);
 
     List<Particle> getParticles();

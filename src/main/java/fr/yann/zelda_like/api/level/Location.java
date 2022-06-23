@@ -18,6 +18,8 @@ public interface Location {
 
     void setOrientation(Orientation orientation);
 
+    double getDistance(Location location);
+
     Location clone();
 
     enum Orientation {
